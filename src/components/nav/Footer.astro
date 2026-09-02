@@ -1,0 +1,148 @@
+---
+/**
+ * Rodapé — fonte: 03 §2, 04 "Rodapé (todas as páginas)".
+ * 4 colunas → 2 → 1 (grupos em <details> opcional) via container query — 06 §2.
+ * ConsentBanner completo (seletor de preferências funcional) é Fase 2 (08 §1.1);
+ * aqui o botão existe como estrutura, sem lógica ainda — ver docs/inputs.md.
+ */
+import { footerNav, footerLegal } from '../../data/nav';
+import { site } from '../../data/site';
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__grid">
+      {
+        footerNav.map((group) => (
+          <nav aria-label={group.label} class="site-footer__col">
+            <a href={group.href} class="site-footer__col-title">
+              {group.label}
+            </a>
+            <ul role="list">
+              {group.items.map((link) => (
+                <li>
+                  <a href={link.href}>{link.label}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
+    </div>
+
+    <div class="site-footer__bottom">
+      <div class="site-footer__signature">
+        <p class="site-footer__tagline">{site.tagline}</p>
+        <p class="text-100 site-footer__legal-name">
+          {/* TODO:O5/O7 — endereço/CNPJ reais, se decidido exibir */}
+          {site.legalName}
+        </p>
+      </div>
+
+      <div class="site-footer__legal-links">
+        {footerLegal.map((link) => <a href={link.href}>{link.label}</a>)}
+        <button type="button" data-consent-preferences>Preferências de privacidade</button>
+      </div>
+
+      <a
+        href={site.social.linkedin}
+        class="site-footer__social"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${site.name} no LinkedIn`}
+      >
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path
+            d="M6.5 8.5v9M6.5 5.5v.01M11.5 17.5v-5c0-1.5 1-2.5 2.5-2.5s2.5 1 2.5 2.5v5M11.5 10.5v7"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+          <rect
+            x="2.5"
+            y="2.5"
+            width="19"
+            height="19"
+            rx="2"
+            stroke="currentColor"
+            stroke-width="1.5"></rect>
+        </svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--c-graphite-900);
+    color: var(--c-bone-50);
+    padding-block: var(--sp-section);
+  }
+  .site-footer__inner {
+    container-type: inline-size;
+  }
+  .site-footer__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--sp-8);
+  }
+  .site-footer__col-title {
+    display: block;
+    font-weight: 600;
+    text-decoration: none;
+    margin-block-end: var(--sp-3);
+  }
+  .site-footer__col ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+  .site-footer__col a {
+    text-decoration: none;
+    color: var(--c-ash-300);
+    font-size: var(--fs-200);
+  }
+  .site-footer__bottom {
+    margin-block-start: var(--sp-12);
+    padding-block-start: var(--sp-6);
+    border-block-start: var(--bw-1) solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4);
+  }
+  .site-footer__tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+  }
+  .site-footer__legal-name {
+    color: var(--c-ash-300);
+  }
+  .site-footer__legal-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+  }
+  .site-footer__legal-links a,
+  .site-footer__legal-links button {
+    color: var(--c-ash-300);
+    font-size: var(--fs-200);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .site-footer__social {
+    color: var(--c-bone-50);
+  }
+
+  @container (max-width: 48rem) {
+    .site-footer__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @container (max-width: 28rem) {
+    .site-footer__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

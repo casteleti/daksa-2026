@@ -1,0 +1,12 @@
+/*
+  Entry point único de CSS global — importado uma vez em src/layouts/Base.astro.
+  Ordem de import importa: layers.css precisa vir antes de qualquer @layer real
+  para fixar a precedência (reset, base, tokens, components, utilities — 06 §1).
+*/
+@import './layers.css';
+@import './reset.css';
+@import './base.css';
+@import './tokens.css';
+@import './typography.css';
+@import './motion.css';
+@import './utilities.css';

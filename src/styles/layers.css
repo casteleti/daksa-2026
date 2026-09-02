@@ -1,0 +1,10 @@
+/*
+  Ordem de cascade layers do projeto — fonte: 06-RESPONSIVO-MOBILE-MOTION.md §1.
+  Este arquivo só declara a ordem; precisa ser importado antes de qualquer
+  conteúdo real das layers (reset.css, base.css, etc.) para fixar a precedência.
+  Astro NÃO coloca <style> escopado de componente em nenhuma layer automaticamente
+  — como o escopo (atributo de dados) já isola a especificidade, isso é aceitável;
+  quando um componente precisar competir com utilities.css, envolva o bloco em
+  `@layer components { ... }` explicitamente dentro do <style> do componente.
+*/
+@layer reset, base, tokens, components, utilities;

@@ -1,0 +1,106 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+import { site } from '../data/site';
+import { canonicalUrl, validateSeo } from '../lib/seo';
+import { jsonLdGraph, organizationSchema, websiteSchema } from '../lib/schema';
+import { consentDefaultScript } from '../lib/consent';
+import Header from '../components/nav/Header.astro';
+import Footer from '../components/nav/Footer.astro';
+
+export interface Props {
+  title: string;
+  description: string;
+  /** Caminho da rota atual, com trailing slash (ex: '/o-que-fazemos/'). */
+  path: string;
+  noindex?: boolean;
+  /** Nós JSON-LD adicionais específicos da página (Service, FAQPage, BreadcrumbList...). */
+  jsonLd?: object[];
+  ogImage?: string;
+  /** Header reduzido (logo + voltar) — usado em /diagnostico (03 §4.20). */
+  reducedHeader?: boolean;
+}
+
+const {
+  title,
+  description,
+  path,
+  noindex = false,
+  jsonLd = [],
+  ogImage,
+  reducedHeader = false,
+} = Astro.props;
+
+if (import.meta.env.DEV) {
+  const problems = validateSeo({ title, description });
+  if (problems.length) {
+    console.warn(`[SEO] ${path}: ${problems.join('; ')}`);
+  }
+}
+
+const canonical = canonicalUrl(path);
+const ogImageUrl = ogImage ?? `${site.url}/og${path}og.png`;
+const graph = jsonLdGraph(websiteSchema(), organizationSchema(), ...jsonLd);
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content={site.themeColor.dark} />
+
+    <!-- Fontes críticas (2 preload — Fraunces + Inter; Plex Mono sem preload, 08 §3.3) -->
+    <link
+      rel="preload"
+      href="/fonts/fraunces-variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/inter-variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={site.name} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Consent Mode v2 default — precisa rodar antes do GTM (08 §1.1). GTM em si
+         entra na Fase 2 (TODO:O5/O6 não bloqueiam isto, mas o container GTM real sim). -->
+    <script is:inline set:html={consentDefaultScript()} />
+
+    <script is:inline type="application/ld+json" set:html={graph} />
+
+    <slot name="head" />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Pular para o conteúdo</a>
+
+    <ClientRouter />
+
+    <Header reduced={reducedHeader} />
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

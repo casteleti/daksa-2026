@@ -1,0 +1,32 @@
+{
+  "_comment": "Fonte: 08-ANALYTICS-FORMS-PERF-A11Y-QA.md §3.2. Valores em KB, gzip. Checado por scripts/check-budgets.mjs no CI (02 §7 step 6).",
+  "routes": {
+    "home": {
+      "match": ["^/$"],
+      "jsKb": 60,
+      "cssKb": 30,
+      "totalKb": 500
+    },
+    "diagnostico": {
+      "match": ["^/diagnostico/"],
+      "jsKb": 50,
+      "cssKb": 25,
+      "totalKb": 400
+    },
+    "insight": {
+      "match": ["^/insights/[^/]+/$"],
+      "jsKb": 25,
+      "cssKb": 25,
+      "totalKb": 350
+    },
+    "default": {
+      "_comment": "Serviço/Segmento/demais rotas de conteúdo",
+      "match": ["^/"],
+      "jsKb": 45,
+      "cssKb": 30,
+      "totalKb": 550
+    }
+  },
+  "fontsKb": 140,
+  "svgHeroKb": 20
+}

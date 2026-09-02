@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // TODO:O1 — nome final do projeto/domínio (afeta o nome do Worker no dashboard Cloudflare).
+  "name": "site-daksa",
+  // Alinhado à versão de workerd resolvida localmente (ver package-lock.json) para garantir
+  // paridade entre `astro dev`/`astro build` e o runtime de produção.
+  "compatibility_date": "2026-08-31",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // TODO:O6 — bindings reais (D1 para fallback de lead, Queues para retry de CRM/e-mail,
+  // KV para sessão do adapter) entram na Fase 2 (09 §1), quando o CRM de destino e o
+  // domínio estiverem definidos. Sem eles, /api/lead roda em modo stub (ver src/pages/api/lead.ts).
+  //
+  // "d1_databases": [{ "binding": "LEADS_DB", "database_name": "TODO", "database_id": "TODO" }],
+  // "queues": { "producers": [{ "binding": "LEAD_RETRY_QUEUE", "queue": "TODO" }] },
+
+  // NOTA (docs/inputs.md): a doc de referência (02-STACK-INFRA-SEGURANCA.md) descreve o
+  // deploy como "Cloudflare Pages" clássico; o adapter atual (@astrojs/cloudflare 14.x) se
+  // descreve como adapter para "Cloudflare Workers" (a Cloudflare vem unificando Pages em
+  // Workers com Static Assets). Este arquivo cobre dev/build local; o fluxo real de deploy
+  // (Pages dashboard vs. `wrangler deploy` com Static Assets) precisa ser confirmado contra
+  // o produto Cloudflare atual na Fase 5, quando O5 for resolvido.
+}

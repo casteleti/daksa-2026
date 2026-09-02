@@ -1,0 +1,19 @@
+dist/
+.astro/
+node_modules/
+.wrangler/
+public/fonts/
+pnpm-lock.yaml
+package-lock.json
+
+# Planejamento original (fonte de verdade) — nunca reformatar, mesmo que markdown "wide format".
+docs/00-INDICE-E-SUMARIO-EXECUTIVO.md
+docs/01-CONTEXTO-POSICIONAMENTO-COPY.md
+docs/02-STACK-INFRA-SEGURANCA.md
+docs/03-ARQUITETURA-SITE-PAGINAS.md
+docs/04-HOME-DETALHADA.md
+docs/05-DESIGN-SYSTEM.md
+docs/06-RESPONSIVO-MOBILE-MOTION.md
+docs/07-SEO-GEO-CONTEUDO-CMS.md
+docs/08-ANALYTICS-FORMS-PERF-A11Y-QA.md
+docs/09-ROADMAP-RISCOS-DECISOES.md

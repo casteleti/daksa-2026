@@ -1,0 +1,211 @@
+---
+/**
+ * Header desktop + barra mobile compacta — fonte: 03 §2, 05 §3 (Header/Navbar, Dropdown),
+ * 06 §3.1 (Thumb zones / navegação mobile).
+ * Dropdowns usam <details>/<summary> nativo como base (funciona sem JS — princípio 2, 00 §2)
+ * e são progressivamente aprimorados por header.ts (hover 200ms, Esc, click fora, setas).
+ */
+import { headerNav, headerCta, type NavGroup, type NavLink } from '../../data/nav';
+import { site } from '../../data/site';
+import MobileNav from './MobileNav.astro';
+import Button from '../ui/Button.astro';
+
+function isGroup(item: NavGroup | NavLink): item is NavGroup {
+  return 'items' in item;
+}
+
+export interface Props {
+  reduced?: boolean;
+}
+const { reduced = false } = Astro.props;
+---
+
+<header class="site-header" data-reduced={reduced}>
+  <div class="container site-header__bar">
+    <a href="/" class="site-header__logo" aria-label={`${site.name} — página inicial`}>
+      {site.name}
+    </a>
+
+    {
+      !reduced && (
+        <>
+          <nav aria-label="Principal" class="site-header__nav">
+            <ul role="list" class="site-header__nav-list">
+              {headerNav.map((item) =>
+                isGroup(item) ? (
+                  <li>
+                    <details class="nav-dropdown" data-nav-dropdown>
+                      <summary class="nav-dropdown__trigger">{item.label}</summary>
+                      <ul role="list" class="nav-dropdown__panel">
+                        {item.items.map((link) => (
+                          <li>
+                            <a href={link.href}>{link.label}</a>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  </li>
+                ) : (
+                  <li>
+                    <a href={item.href}>{item.label}</a>
+                  </li>
+                ),
+              )}
+            </ul>
+          </nav>
+          <div class="site-header__cta">
+            <Button href={headerCta.href} variant="primary" size="md">
+              {headerCta.label}
+            </Button>
+          </div>
+        </>
+      )
+    }
+
+    <div class="site-header__mobile-actions">
+      {
+        !reduced && (
+          <Button
+            href={headerCta.href}
+            variant="primary"
+            size="md"
+            class="site-header__cta-compact"
+          >
+            Diagnóstico
+          </Button>
+        )
+      }
+      {!reduced && <MobileNav />}
+      {
+        reduced && (
+          <a href="/" class="site-header__back">
+            Voltar
+          </a>
+        )
+      }
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: var(--z-sticky);
+    block-size: var(--header-h);
+    background: color-mix(in oklab, var(--c-graphite-900) 92%, transparent);
+    backdrop-filter: blur(8px);
+    border-block-end: var(--bw-1) solid transparent;
+    color: var(--c-bone-50);
+  }
+  .site-header__bar {
+    block-size: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-6);
+  }
+  .site-header__logo {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--fs-400);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .site-header__nav {
+    flex: 1;
+  }
+  .site-header__nav-list {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-6);
+  }
+  .site-header__nav-list > li > a,
+  .nav-dropdown__trigger {
+    font-size: var(--fs-200);
+    text-decoration: none;
+    cursor: pointer;
+    list-style: none;
+  }
+  .nav-dropdown__trigger::-webkit-details-marker {
+    display: none;
+  }
+  .nav-dropdown {
+    position: relative;
+  }
+  .nav-dropdown__panel {
+    position: absolute;
+    inset-block-start: calc(100% + var(--sp-3));
+    inset-inline-start: 0;
+    min-inline-size: 14rem;
+    background: var(--c-navy-950);
+    border: var(--bw-1) solid var(--line);
+    border-radius: var(--r-1);
+    box-shadow: var(--shadow-dropdown);
+    padding: var(--sp-2);
+    z-index: var(--z-dropdown);
+  }
+  .nav-dropdown__panel li a {
+    display: block;
+    padding: var(--sp-2) var(--sp-3);
+    border-radius: var(--r-1);
+    text-decoration: none;
+    font-size: var(--fs-200);
+  }
+  .nav-dropdown__panel li a:hover {
+    background: color-mix(in oklab, var(--c-bone-50) 8%, transparent);
+  }
+  .site-header__mobile-actions {
+    display: none;
+    align-items: center;
+    gap: var(--sp-2);
+  }
+  .site-header__cta-compact {
+    display: none;
+  }
+  .site-header__back {
+    color: var(--c-bone-50);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* Tablet (48–64rem): nav completa mas compacta — 06 §2 ("nav completa compacta, labels
+     curtos"). Sem copy de labels abreviados ainda (conteúdo real é Fase 3/4): compactamos
+     via gap/tamanho de fonte/padding do CTA, o suficiente para nunca causar overflow
+     horizontal (achado real de teste, 08 §5 — sem overflow em 768px). */
+  @media (min-width: 48rem) and (max-width: 63.9375rem) {
+    .site-header__nav-list {
+      gap: var(--sp-4);
+    }
+    .site-header__nav-list > li > a,
+    .nav-dropdown__trigger {
+      font-size: var(--fs-100);
+    }
+    .site-header__cta :global(.btn) {
+      padding-inline: var(--sp-4);
+    }
+  }
+
+  @media (max-width: 47.9375rem) {
+    .site-header__nav,
+    .site-header__cta {
+      display: none;
+    }
+    .site-header__mobile-actions {
+      display: flex;
+      margin-inline-start: auto;
+    }
+    .site-header__cta-compact {
+      display: inline-flex;
+    }
+    /* 06 §3.9: sem backdrop-filter em mobile (custo de GPU em low-end) — opacidade sólida. */
+    .site-header {
+      backdrop-filter: none;
+      background: color-mix(in oklab, var(--c-graphite-900) 96%, transparent);
+    }
+  }
+</style>
+
+<script>
+  import { enhanceNavDropdowns } from './header';
+  enhanceNavDropdowns();
+</script>

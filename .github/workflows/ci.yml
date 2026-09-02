@@ -1,0 +1,169 @@
+name: CI
+
+# Gates — fonte: 02-STACK-INFRA-SEGURANCA.md §7.
+# Deploy real (Cloudflare Pages) depende de secrets que só existem depois de O5 (domínio)
+# e acesso à conta Cloudflare (Fase 0, 09 §1) — o job fica condicional à presença deles.
+
+on:
+  pull_request:
+  push:
+    branches: [main, staging]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '24'
+
+jobs:
+  quality:
+    name: Quality gates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install dependencies (lockfile obrigatório)
+        run: npm ci
+
+      - name: astro check (types)
+        run: npm run check
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Prettier
+        run: npm run format:check
+
+      - name: Vitest (unit)
+        run: npm run test
+
+      - name: astro build
+        run: npm run build
+
+      - name: Bundle budget (08 §3.2)
+        run: npm run budgets
+
+      # --omit=dev: dependências de produção só (o que vai para o bundle/Worker). Achado real
+      # (docs/inputs.md §5): @lhci/cli 0.15.1 arrasta `tmp`/`uuid`/`inquirer` vulneráveis via
+      # lighthouse/puppeteer-core — 7 high, só em devDependencies, nunca chega ao runtime, e
+      # `npm audit fix --force` rebaixaria @lhci/cli para 0.1.0 (quebra maior que o risco).
+      # Produção real audita limpo (`npm audit --omit=dev` = 0 vulnerabilidades).
+      - name: npm audit — dependências de produção (high+ bloqueante)
+        run: npm audit --audit-level=high --omit=dev
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 1
+
+  e2e:
+    name: Playwright — E2E, a11y, responsivo
+    runs-on: ubuntu-latest
+    needs: quality
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - run: npm ci
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium webkit firefox
+
+      # `astro preview` se autodaemoniza em ambiente não-interativo (ver playwright.config.ts
+      # e docs/inputs.md) — subimos e esperamos a porta explicitamente em vez de depender do
+      # `webServer` automático do Playwright.
+      - name: Start preview server
+        run: |
+          npx astro preview --port 4321 --host localhost
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:4321/ > /dev/null && break
+            sleep 1
+          done
+          curl -sf http://localhost:4321/ > /dev/null || (echo "preview não subiu" && exit 1)
+
+      - name: Playwright (E2E + a11y + responsivo)
+        run: npx playwright test
+        env:
+          PLAYWRIGHT_BASE_URL: http://localhost:4321
+
+      - name: Stop preview server
+        if: always()
+        run: npx astro preview stop || true
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+  lighthouse:
+    name: Lighthouse CI (08 §3.1)
+    runs-on: ubuntu-latest
+    needs: quality
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - run: npm ci
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Lighthouse CI
+        run: npx lhci autorun
+        env:
+          LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
+
+  # Deploy — condicional à existência dos secrets (só depois de O5/O6, Fase 0/5, 09 §1/§3).
+  # CLOUDFLARE_API_TOKEN e CLOUDFLARE_ACCOUNT_ID entram nos secrets do repositório quando o
+  # acesso à conta Cloudflare for fornecido; até lá este job não roda (skip silencioso).
+  deploy:
+    name: Deploy (Cloudflare Pages)
+    runs-on: ubuntu-latest
+    needs: [quality, e2e, lighthouse]
+    if: ${{ vars.CLOUDFLARE_DEPLOY_ENABLED == 'true' }}
+    environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'preview' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist/client --project-name=site-daksa

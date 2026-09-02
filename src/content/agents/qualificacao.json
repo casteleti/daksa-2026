@@ -1,0 +1,19 @@
+{
+  "name": "Qualificação",
+  "does": "Recebe a oportunidade, coleta o que falta, classifica e encaminha para o vendedor certo.",
+  "kpi": ["Tempo até primeira resposta", "% de leads qualificados"],
+  "permissions": [
+    "Ler oportunidade recebida",
+    "Escrever classificação no CRM",
+    "Encaminhar para vendedor"
+  ],
+  "escalatesWhen": [
+    "Dado obrigatório ausente e não respondido em 2 tentativas",
+    "Classificação ambígua entre dois segmentos"
+  ],
+  "logExample": [
+    "09:14 oportunidade #4821 recebida",
+    "09:15 classificada: cotação técnica · vendedor R.",
+    "09:16 encaminhada · SLA 4h iniciado"
+  ]
+}

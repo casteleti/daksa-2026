@@ -1,0 +1,175 @@
+---
+/**
+ * Drawer mobile — fonte: 05 §3 (MobileNav), 06 §3.1.
+ * <dialog> nativo com showModal(); grupos em <details>, "O que fazemos" aberto por padrão;
+ * CTA fixo no rodapé do drawer. Fechamento: X, Esc (nativo do dialog), click no overlay, swipe.
+ */
+import { headerNav, headerCta, type NavGroup, type NavLink } from '../../data/nav';
+
+function isGroup(item: NavGroup | NavLink): item is NavGroup {
+  return 'items' in item;
+}
+---
+
+<button type="button" class="mobile-nav-trigger" data-mobile-nav-open aria-haspopup="dialog">
+  <span class="visually-hidden">Abrir menu</span>
+  <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M4 6h16M4 12h16M4 18h16"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"></path>
+  </svg>
+</button>
+
+<dialog class="mobile-nav" data-mobile-nav aria-label="Menu">
+  <div class="mobile-nav__header">
+    <span class="mobile-nav__title">Menu</span>
+    <button type="button" class="mobile-nav__close" data-mobile-nav-close>
+      <span class="visually-hidden">Fechar menu</span>
+      <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M6 6l12 12M18 6L6 18"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"></path>
+      </svg>
+    </button>
+  </div>
+
+  <nav aria-label="Principal" class="mobile-nav__nav">
+    <ul role="list" class="mobile-nav__list">
+      {
+        headerNav.map((item) =>
+          isGroup(item) ? (
+            <li>
+              <details open={item.label === 'O que fazemos'}>
+                <summary>{item.label}</summary>
+                <ul role="list">
+                  {item.items.map((link) => (
+                    <li>
+                      <a href={link.href}>{link.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </li>
+          ) : (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ),
+        )
+      }
+    </ul>
+  </nav>
+
+  <div class="mobile-nav__footer">
+    <a href={headerCta.href} class="mobile-nav__cta">{headerCta.label}</a>
+  </div>
+</dialog>
+
+<style>
+  .mobile-nav-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 44px;
+    block-size: 44px;
+    color: var(--c-bone-50);
+  }
+
+  .mobile-nav {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-end: 0;
+    inset-inline-start: auto;
+    margin: 0;
+    inline-size: 88%;
+    max-inline-size: 24rem;
+    block-size: 100dvb;
+    max-block-size: 100dvb;
+    border: none;
+    padding: 0;
+    background: var(--c-graphite-900);
+    color: var(--c-bone-50);
+  }
+  .mobile-nav::backdrop {
+    background: rgb(0 0 0 / 0.5);
+  }
+  .mobile-nav[open] {
+    display: flex;
+    flex-direction: column;
+  }
+  .mobile-nav__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--sp-4);
+    border-block-end: var(--bw-1) solid var(--line);
+  }
+  .mobile-nav__title {
+    font-family: var(--font-display);
+    font-size: var(--fs-400);
+  }
+  .mobile-nav__close {
+    inline-size: 44px;
+    block-size: 44px;
+    color: var(--c-bone-50);
+  }
+  .mobile-nav__nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--sp-4);
+  }
+  .mobile-nav__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+  .mobile-nav__list summary {
+    font-size: var(--fs-300);
+    padding-block: var(--sp-3);
+    cursor: pointer;
+  }
+  .mobile-nav__list details ul {
+    padding-inline-start: var(--sp-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+  }
+  .mobile-nav__list details a,
+  .mobile-nav__list > li > a {
+    display: block;
+    padding-block: var(--sp-2);
+    text-decoration: none;
+    font-size: var(--fs-200);
+  }
+  .mobile-nav__footer {
+    padding: var(--sp-4);
+    border-block-start: var(--bw-1) solid var(--line);
+  }
+  .mobile-nav__cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 100%;
+    block-size: 48px;
+    background: var(--accent);
+    color: var(--accent-fg);
+    text-decoration: none;
+    border-radius: var(--r-1);
+    font-weight: 600;
+  }
+
+  @media (min-width: 48rem) {
+    .mobile-nav-trigger {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  import { enhanceMobileNav } from './mobile-nav';
+  enhanceMobileNav();
+</script>

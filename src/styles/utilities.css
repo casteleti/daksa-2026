@@ -1,0 +1,75 @@
+/* Utilities mínimas — fonte: 06-RESPONSIVO-MOBILE-MOTION.md §1, 05-DESIGN-SYSTEM.md §2.3 */
+@layer utilities {
+  .container {
+    inline-size: min(100% - 2 * var(--container-pad), var(--container-max));
+    margin-inline: auto;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+    gap: var(--gap);
+  }
+
+  /* Oculto visualmente mas presente para leitor de tela */
+  .visually-hidden {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+    padding: 0;
+    margin: -1px;
+  }
+
+  /* Empilhamento vertical com espaçamento consistente entre filhos diretos */
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--stack-gap, var(--sp-4));
+  }
+
+  /* Agrupamento horizontal que quebra linha quando necessário */
+  .cluster {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--cluster-gap, var(--sp-3));
+  }
+
+  /* Corpo de texto longo (artigos, MDX) — medida controlada, espaçamento vertical */
+  .prose {
+    max-inline-size: var(--content-max);
+  }
+  .prose > * + * {
+    margin-block-start: var(--sp-4);
+  }
+  .prose h2 {
+    margin-block-start: var(--sp-10);
+  }
+  .prose h3 {
+    margin-block-start: var(--sp-8);
+  }
+  .prose ul,
+  .prose ol {
+    padding-inline-start: 1.25em;
+  }
+
+  .skip-link {
+    position: absolute;
+    inset-block-start: -100%;
+    inset-inline-start: var(--sp-4);
+    z-index: var(--z-toast);
+    background: var(--bg-elev);
+    color: var(--fg);
+    padding: var(--sp-3) var(--sp-4);
+    border-radius: var(--r-1);
+    border: var(--bw-1) solid var(--line);
+  }
+  .skip-link:focus {
+    inset-block-start: var(--sp-4);
+  }
+}

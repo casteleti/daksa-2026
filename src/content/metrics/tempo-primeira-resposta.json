@@ -1,0 +1,7 @@
+{
+  "name": "Tempo médio de primeira resposta",
+  "phase": "before",
+  "definition": "Tempo entre a chegada de uma oportunidade e o primeiro contato humano ou automatizado registrado.",
+  "unit": "minutos",
+  "howMeasured": "Timestamp de entrada da oportunidade no CRM até o timestamp do primeiro registro de contato."
+}

@@ -1,0 +1,75 @@
+/* Reset moderno, mínimo — fonte: 05-DESIGN-SYSTEM.md / 06-RESPONSIVO-MOBILE-MOTION.md §1 */
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  * {
+    margin: 0;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    hanging-punctuation: first last;
+  }
+
+  body {
+    min-block-size: 100dvb;
+    line-height: var(--lh-body, 1.55);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img,
+  picture,
+  svg,
+  video,
+  canvas {
+    display: block;
+    max-inline-size: 100%;
+  }
+
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+    color: inherit;
+  }
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: inherit;
+  }
+
+  ul[role='list'],
+  ol[role='list'] {
+    list-style: none;
+    padding-inline-start: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration-thickness: max(1px, 0.0625rem);
+  }
+
+  table {
+    border-collapse: collapse;
+  }
+
+  /* Reduced motion global — reforça os tokens de duração zerados em tokens.css */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

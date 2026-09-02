@@ -1,0 +1,38 @@
+{
+  "ci": {
+    "collect": {
+      "staticDistDir": "./dist/client",
+      "url": ["http://localhost/index.html"],
+      "numberOfRuns": 3,
+      "settings": {
+        "chromeFlags": "--no-sandbox --disable-dev-shm-usage",
+        "preset": "desktop",
+        "formFactor": "mobile",
+        "screenEmulation": {
+          "mobile": true,
+          "width": 412,
+          "height": 915,
+          "deviceScaleFactor": 2.625,
+          "disabled": false
+        },
+        "throttling": {
+          "rttMs": 150,
+          "throughputKbps": 1638.4,
+          "cpuSlowdownMultiplier": 4
+        }
+      }
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": ["error", { "minScore": 0.95 }],
+        "categories:accessibility": ["error", { "minScore": 1 }],
+        "categories:seo": ["error", { "minScore": 1 }],
+        "categories:best-practices": ["error", { "minScore": 0.95 }]
+      }
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  },
+  "_comment": "Fonte: 08-ANALYTICS-FORMS-PERF-A11Y-QA.md §3.1, §3.4 (Moto G Power / 4G lento simulado). staticDistDir serve dist/client direto — sem depender do preview daemon deste ambiente (ver docs/inputs.md). /styleguide/ fora da lista de propósito: é noindex por design (05 §6), e a auditoria de SEO do Lighthouse reprova qualquer página noindex — rodar SEO=100 nela sempre falharia por design, não por bug."
+}

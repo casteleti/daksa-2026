@@ -1,0 +1,29 @@
+# Fonte: 07-SEO-GEO-CONTEUDO-CMS.md §2.
+# [DEC] Google-Extended permitido (O11, 09 §3) — visibilidade > proteção de conteúdo institucional.
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /styleguide
+Disallow: /keystatic
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# TODO:O5 — domínio final. Placeholder até então (astro.config.mjs `site`).
+Sitemap: https://example.invalid/sitemap-index.xml

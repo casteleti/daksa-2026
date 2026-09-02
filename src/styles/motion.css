@@ -1,0 +1,69 @@
+/*
+  Motion utilities reutilizáveis — fonte: 06-RESPONSIVO-MOBILE-MOTION.md §4.
+  Regra geral (06 §4.3): anima só transform, opacity, stroke-dashoffset,
+  offset-distance; nunca height/top/box-shadow (exceto acordeão via grid-template-rows).
+  Cada classe aqui corresponde a uma linha da tabela 06 §4.2 — não criar motion
+  sem mapeamento lá.
+*/
+@layer utilities {
+  /* Reveal de seção ao entrar na viewport (IntersectionObserver troca a classe) */
+  .reveal {
+    opacity: 0;
+    transition: opacity var(--dur-2) var(--ease-out);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+  }
+
+  /* Acordeão nativo (<details>/<summary>) — altura 0fr→1fr via grid-template-rows */
+  .accordion-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--dur-2) var(--ease-out);
+  }
+  .accordion-panel > .accordion-panel__inner {
+    overflow: hidden;
+  }
+  [open] > .accordion-panel,
+  .accordion-panel.is-open {
+    grid-template-rows: 1fr;
+  }
+
+  /* Linha conectora que "desenha" (Escada, Problema) via stroke-dashoffset em SVG,
+     ou clip-path/scaleX em elementos não-SVG */
+  .draw-line {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur-3) var(--ease-out);
+  }
+  .draw-line.is-visible {
+    transform: scaleX(1);
+  }
+
+  /* Deslocamento sutil de entrada (etapa de formulário, erro) */
+  .shift-in {
+    transform: translateY(8px);
+    opacity: 0;
+    animation: shift-in var(--dur-2) var(--ease-out) forwards;
+  }
+  @keyframes shift-in {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .draw-line,
+    .shift-in {
+      opacity: 1;
+      transform: none;
+      animation: none;
+      transition: none;
+    }
+    .accordion-panel {
+      transition: none;
+    }
+  }
+}

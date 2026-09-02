@@ -1,0 +1,142 @@
+/*
+  Tokens — fonte: 05-DESIGN-SYSTEM.md §2
+  Não editar valores aqui sem atualizar o design system primeiro.
+  docs/design-tokens.md é gerado a partir deste arquivo (npm run gen-tokens-doc).
+*/
+
+@layer tokens {
+  :root {
+    /* ---- Cor: primitivos (05 §2.1) ---- */
+    --c-graphite-900: #14181d;
+    --c-navy-950: #0d1520;
+    --c-bone-50: #f5f4f0;
+    --c-bone-100: #eceae4;
+    --c-lead-700: #3a3f47;
+    --c-lead-500: #6b7079;
+    --c-ash-300: #b8bcc2;
+    --c-ash-200: #d5d8dc;
+    --c-ink-900: #1a1d21;
+    --c-amber-500: #c97a3d;
+    --c-amber-600: #b26a32; /* hover */
+    --c-amber-200: #f0d9c6; /* fundo de estado sutil sobre claro */
+    --c-ok-500: #3f8f6b; /* apenas estados de sistema */
+    --c-warn-500: #c9a23d;
+    --c-err-500: #b8453a;
+
+    /* ---- Cor: semânticos — tema escuro (padrão de seções de destaque) ---- */
+    --bg: var(--c-graphite-900);
+    --bg-elev: var(--c-navy-950);
+    --fg: var(--c-bone-50);
+    --fg-muted: var(--c-ash-300);
+    --line: color-mix(in oklab, var(--c-ash-300) 24%, transparent);
+    --accent: var(--c-amber-500);
+    --accent-hover: var(--c-amber-600);
+    /* ink-900 (não bone-50): bone-50/amber-500 mede 3,01:1 (axe), abaixo de AA 4,5:1 para
+       texto normal — 05 §2.1 já recomendava ink-900 para texto pequeno sobre âmbar (6,2:1
+       na doc; 5,10:1 medido aqui, ainda assim ok). Corrigido após achado real do axe-core
+       no Button primary — ver docs/inputs.md. */
+    --accent-fg: var(--c-ink-900);
+    --focus: var(--c-amber-500);
+
+    /* ---- Tipografia (05 §2.2) ---- */
+    /* "Fraunces Fallback"/"Inter Fallback" = @font-face com size-adjust (typography.css),
+     entram entre a webfont e as fallbacks de sistema para reduzir CLS no swap (08 §3.3) */
+    --font-display: Fraunces, 'Fraunces Fallback', 'Iowan Old Style', Georgia, serif;
+    --font-text: Inter, 'Inter Fallback', 'Segoe UI', Roboto, system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+
+    --fs-100: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem); /* 13–14 legendas */
+    --fs-200: clamp(0.9375rem, 0.9rem + 0.2vw, 1rem); /* 15–16 meta */
+    --fs-300: clamp(1rem, 0.95rem + 0.25vw, 1.125rem); /* 16–18 corpo */
+    --fs-400: clamp(1.125rem, 1.05rem + 0.4vw, 1.3125rem); /* 18–21 lead */
+    --fs-500: clamp(1.25rem, 1.1rem + 0.75vw, 1.75rem); /* 20–28 H3 */
+    --fs-600: clamp(1.75rem, 1.35rem + 1.5vw, 2.75rem); /* 28–44 H2 */
+    --fs-700: clamp(2.25rem, 1.5rem + 3vw, 4.5rem); /* 36–72 H1 */
+
+    --lh-tight: 1.1;
+    --lh-snug: 1.25;
+    --lh-body: 1.55;
+    --lh-loose: 1.7;
+    --ls-display: -0.015em;
+    --ls-body: 0;
+    --ls-mono: 0;
+
+    --measure-body: 65ch;
+    --measure-display: 22ch;
+    --measure-lead: 48ch;
+
+    /* ---- Espaçamento e layout (05 §2.3) ---- */
+    --sp-1: 0.25rem;
+    --sp-2: 0.5rem;
+    --sp-3: 0.75rem;
+    --sp-4: 1rem;
+    --sp-5: 1.25rem;
+    --sp-6: 1.5rem;
+    --sp-8: 2rem;
+    --sp-10: 2.5rem;
+    --sp-12: 3rem;
+    --sp-16: 4rem;
+    --sp-section: clamp(3.5rem, 8vw, 7.5rem); /* entre seções */
+    --sp-block: clamp(1.5rem, 3vw, 2.5rem); /* dentro de seção */
+    --gap: clamp(0.75rem, 2vw, 1.5rem);
+
+    --container-max: 76rem; /* 1216px */
+    --container-pad: clamp(1rem, 4vw, 2.5rem);
+    --content-max: 65ch;
+    --grid-cols: 12;
+
+    /* Altura do header sticky — fonte: 05 §3 (Header/Navbar), 06 §3.1 */
+    --header-h: 4rem; /* 64px desktop */
+
+    /* ---- Raio, borda, sombra, elevação, opacidade, z-index (05 §2.4) ---- */
+    --r-0: 0;
+    --r-1: 4px;
+    --r-2: 8px;
+    --r-pill: 999px;
+    --bw-1: 1px;
+    --bw-2: 1.5px;
+    --shadow-dropdown: 0 8px 24px -8px rgb(0 0 0 / 0.45);
+    --shadow-dialog: 0 24px 48px -16px rgb(0 0 0 / 0.6);
+    --op-muted: 0.72;
+    --op-disabled: 0.45;
+    --z-base: 0;
+    --z-sticky: 10;
+    --z-dropdown: 20;
+    --z-drawer: 30;
+    --z-dialog: 40;
+    --z-toast: 50;
+
+    /* ---- Motion (05 §2.6) ---- */
+    --dur-1: 120ms;
+    --dur-2: 200ms;
+    --dur-3: 400ms;
+    --dur-4: 600ms;
+    --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-linear: linear;
+  }
+
+  [data-theme='light'] {
+    --bg: var(--c-bone-50);
+    --bg-elev: #ffffff;
+    --fg: var(--c-ink-900);
+    --fg-muted: var(--c-lead-700);
+    --line: var(--c-ash-200);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --dur-1: 0ms;
+      --dur-2: 0ms;
+      --dur-3: 0ms;
+      --dur-4: 0ms;
+    }
+  }
+
+  /* Breakpoint global de navegação (06 §1): abaixo de 48rem, header vira 56px */
+  @media (max-width: 47.9375rem) {
+    :root {
+      --header-h: 3.5rem; /* 56px mobile */
+    }
+  }
+} /* fim @layer tokens */

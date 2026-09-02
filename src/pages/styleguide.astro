@@ -1,0 +1,151 @@
+---
+/**
+ * QA visual de componentes — fonte: 05-DESIGN-SYSTEM.md §6.
+ * noindex sempre (07 §2 robots.txt bloqueia /styleguide); não linkada em nenhum nav.
+ *
+ * DESVIO DOCUMENTADO (docs/inputs.md): a spec nomeia esta rota "/_styleguide", mas
+ * Astro exclui do roteamento qualquer arquivo/pasta de src/pages/ que comece com "_"
+ * (convenção para colocar helpers dentro de pages/ sem virarem rota) — o arquivo original
+ * simplesmente não gerava página nenhuma. Renomeado para /styleguide/, mesma intenção
+ * (QA interno, fora do menu, noindex, bloqueado em robots.txt).
+ */
+import Base from '../layouts/Base.astro';
+import Button from '../components/ui/Button.astro';
+import Link from '../components/ui/Link.astro';
+import Field from '../components/ui/Field.astro';
+import Breadcrumb from '../components/nav/Breadcrumb.astro';
+---
+
+<Base
+  title="Styleguide (QA interno)"
+  description="Página interna de QA visual de componentes, não indexada."
+  path="/styleguide/"
+  noindex
+>
+  <div
+    class="container"
+    style="padding-block: var(--sp-section); display: flex; flex-direction: column; gap: var(--sp-12);"
+  >
+    <h1>Styleguide</h1>
+
+    <section>
+      <h2>Breadcrumb</h2>
+      <Breadcrumb
+        items={[
+          { name: 'Home', href: '/' },
+          { name: 'O que fazemos', href: '/o-que-fazemos/' },
+          { name: 'Diagnóstico de receita', href: '/o-que-fazemos/diagnostico-de-receita/' },
+        ]}
+      />
+    </section>
+
+    <section>
+      <h2>Button</h2>
+      <div class="cluster" style="--cluster-gap: var(--sp-4);">
+        <Button variant="primary">Primary md</Button>
+        <Button variant="primary" size="lg">Primary lg</Button>
+        <Button variant="secondary">Secondary</Button>
+        <Button variant="ghost">Ghost</Button>
+        <Button variant="primary" loading>Loading</Button>
+        <Button variant="primary" disabled>Disabled</Button>
+        <Button variant="primary" href="/diagnostico/">Como link (href)</Button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Link</h2>
+      <div class="stack" style="--stack-gap: var(--sp-2);">
+        <p><Link href="/insights/" variant="inline">Link inline dentro de um parágrafo</Link></p>
+        <p><Link href="/o-que-fazemos/" variant="nav">Link de navegação</Link></p>
+        <p><Link href="https://www.linkedin.com" variant="external">Link externo</Link></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Field — estados</h2>
+      {
+        /* data-theme="light": formulários vivem sempre em seção clara (05 §5) — erro (err-500)
+         só foi verificado em contraste sobre bone-50 (4,83:1), não sobre grafite escuro. */
+      }
+      <div
+        data-theme="light"
+        class="stack"
+        style="--stack-gap: var(--sp-6); max-inline-size: 28rem; background: var(--bg); padding: var(--sp-6); border-radius: var(--r-1);"
+      >
+        <Field type="text" name="name-demo" label="Nome" autocomplete="name" required />
+        <Field
+          type="email"
+          name="email-demo"
+          label="E-mail corporativo"
+          hint="Usamos para responder a esta solicitação."
+          autocomplete="email"
+          inputmode="email"
+          required
+        />
+        <Field
+          type="email"
+          name="email-error-demo"
+          label="E-mail corporativo"
+          error="Informe um e-mail corporativo."
+          autocomplete="email"
+          inputmode="email"
+          required
+        />
+        <Field
+          type="select"
+          name="role-demo"
+          label="Cargo"
+          options={[
+            { value: 'dono', label: 'Dono/CEO' },
+            { value: 'diretor', label: 'Diretor comercial' },
+          ]}
+        />
+        <Field
+          type="radio"
+          name="segment-demo"
+          label="Segmento"
+          options={[
+            { value: 'industria', label: 'Indústria' },
+            { value: 'distribuidora', label: 'Distribuidora/atacadista' },
+            { value: 'outro', label: 'Outro' },
+          ]}
+        />
+        <Field type="textarea" name="pain-demo" label="O que mais incomoda hoje?" maxlength={500} />
+      </div>
+    </section>
+
+    <section>
+      <h2>Tipografia</h2>
+      <div class="stack" style="--stack-gap: var(--sp-4);">
+        <h1>H1 — Sua empresa já gera as oportunidades.</h1>
+        <h2>H2 — Do diagnóstico à operação, em quatro etapas.</h2>
+        <h3>H3 — Agente de qualificação</h3>
+        <p class="lead">Parágrafo lead — texto de destaque logo após um título.</p>
+        <p>Parágrafo de corpo padrão, medida controlada a 65 caracteres por linha.</p>
+        <p class="data">09:14 oportunidade #4821 recebida</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Cores e temas</h2>
+      <div class="cluster" style="--cluster-gap: var(--sp-4);">
+        <div
+          style="padding: var(--sp-6); background: var(--c-graphite-900); color: var(--c-bone-50); border-radius: var(--r-1);"
+        >
+          Tema escuro (padrão)
+        </div>
+        <div
+          data-theme="light"
+          style="padding: var(--sp-6); background: var(--bg); color: var(--fg); border-radius: var(--r-1); border: 1px solid var(--line);"
+        >
+          Tema claro (data-theme="light")
+        </div>
+        <div
+          style="padding: var(--sp-6); background: var(--accent); color: var(--accent-fg); border-radius: var(--r-1);"
+        >
+          Accent (âmbar)
+        </div>
+      </div>
+    </section>
+  </div>
+</Base>

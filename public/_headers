@@ -1,0 +1,25 @@
+# Headers de segurança para todas as respostas estáticas (Cloudflare Pages) — fonte: 02-STACK-INFRA-SEGURANCA.md §5.
+# Rotas SSR (/api/*) recebem os mesmos headers via src/middleware.ts (Astro "static" não
+# passa páginas prerenderizadas pelo middleware — só as rotas com `prerender = false`).
+#
+# CSP em Content-Security-Policy-Report-Only por enquanto (instrução da Fase 1 + R9, 09 §2:
+# "CSP quebra GTM/Turnstile → Report-only 2 semanas; nonce; testes de headers"). Nonce por
+# requisição não é possível em HTML 100% estático — plano de refinamento em docs/inputs.md
+# (hash dos scripts inline conhecidos antes de aplicar em modo enforce, 02 §5).
+
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  X-Frame-Options: DENY
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.sentry.io; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/api/*
+  Cache-Control: no-store

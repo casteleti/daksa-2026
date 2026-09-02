@@ -1,0 +1,217 @@
+---
+/**
+ * Field — fonte: 05-DESIGN-SYSTEM.md §3 (Form/Field), 06 §3.6, 08 §4.
+ * Label visível acima; hint abaixo; erro com glifo; aria-describedby; aria-invalid;
+ * radio group usa <fieldset>/<legend>. inputmode/autocomplete definidos pelo consumidor
+ * (08 §2.1: email→email/email; empresa→organization; cargo→organization-title).
+ */
+export interface FieldOption {
+  value: string;
+  label: string;
+}
+
+export interface Props {
+  type: 'text' | 'email' | 'textarea' | 'select' | 'radio';
+  name: string;
+  label: string;
+  hint?: string;
+  error?: string;
+  required?: boolean;
+  autocomplete?: string;
+  inputmode?: 'text' | 'email' | 'tel' | 'numeric' | 'decimal' | 'search' | 'url' | 'none';
+  placeholder?: string;
+  maxlength?: number;
+  options?: FieldOption[];
+  value?: string;
+}
+
+const {
+  type,
+  name,
+  label,
+  hint,
+  error,
+  required = false,
+  autocomplete,
+  inputmode,
+  placeholder,
+  maxlength,
+  options = [],
+  value,
+} = Astro.props;
+
+const fieldId = `field-${name}`;
+const hintId = hint ? `${fieldId}-hint` : undefined;
+const errorId = error ? `${fieldId}-error` : undefined;
+const describedBy = [hintId, errorId].filter(Boolean).join(' ') || undefined;
+---
+
+{
+  type === 'radio' ? (
+    <fieldset
+      class="field field--radio-group"
+      aria-describedby={describedBy}
+      aria-invalid={error ? 'true' : undefined}
+    >
+      <legend class="field__label">
+        {label}
+        {required && <span aria-hidden="true"> *</span>}
+      </legend>
+      <div class="field__radio-options">
+        {options.map((opt) => (
+          <label class="field__radio-option">
+            <input type="radio" name={name} value={opt.value} required={required} />
+            <span>{opt.label}</span>
+          </label>
+        ))}
+      </div>
+      {hint && (
+        <p id={hintId} class="field__hint">
+          {hint}
+        </p>
+      )}
+      {error && (
+        <p id={errorId} class="field__error">
+          {error}
+        </p>
+      )}
+    </fieldset>
+  ) : (
+    <div class="field">
+      <label for={fieldId} class="field__label">
+        {label}
+        {required && <span aria-hidden="true"> *</span>}
+      </label>
+
+      {type === 'textarea' ? (
+        <textarea
+          id={fieldId}
+          name={name}
+          placeholder={placeholder}
+          maxlength={maxlength}
+          required={required}
+          aria-describedby={describedBy}
+          aria-invalid={error ? 'true' : undefined}
+          class="field__control"
+          rows={4}
+        >
+          {value}
+        </textarea>
+      ) : type === 'select' ? (
+        <select
+          id={fieldId}
+          name={name}
+          required={required}
+          aria-describedby={describedBy}
+          aria-invalid={error ? 'true' : undefined}
+          class="field__control"
+        >
+          <option value="" disabled selected={!value}>
+            Selecione
+          </option>
+          {options.map((opt) => (
+            <option value={opt.value} selected={opt.value === value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <input
+          id={fieldId}
+          type={type}
+          name={name}
+          value={value}
+          placeholder={placeholder}
+          maxlength={maxlength}
+          required={required}
+          autocomplete={autocomplete}
+          inputmode={inputmode}
+          aria-describedby={describedBy}
+          aria-invalid={error ? 'true' : undefined}
+          class="field__control"
+        />
+      )}
+
+      {hint && (
+        <p id={hintId} class="field__hint">
+          {hint}
+        </p>
+      )}
+      {error && (
+        <p id={errorId} class="field__error">
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M12 8v5M12 16h.01M10.29 3.86L1.82 18a1 1 0 00.87 1.5h18.62a1 1 0 00.87-1.5L13.71 3.86a1 1 0 00-1.72 0z"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          {error}
+        </p>
+      )}
+    </div>
+  )
+}
+
+<style>
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+  .field__label {
+    font-size: var(--fs-200);
+    font-weight: 600;
+  }
+  .field__control {
+    block-size: 48px;
+    padding-inline: var(--sp-3);
+    border: var(--bw-1) solid var(--line);
+    border-radius: var(--r-1);
+    background: var(--bg-elev);
+    color: var(--fg);
+    font-size: var(--fs-300);
+    inline-size: 100%;
+  }
+  textarea.field__control {
+    block-size: auto;
+    padding-block: var(--sp-3);
+  }
+  .field__control:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+  .field__hint {
+    font-size: var(--fs-100);
+    color: var(--fg-muted);
+  }
+  .field__error {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-1);
+    font-size: var(--fs-100);
+    color: var(--c-err-500);
+  }
+  .field--radio-group {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+  .field__radio-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+  }
+  .field__radio-option {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    min-block-size: 44px;
+    font-size: var(--fs-300);
+  }
+</style>

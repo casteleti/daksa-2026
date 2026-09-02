@@ -1,0 +1,47 @@
+/* Estilos base de documento — fonte: 05-DESIGN-SYSTEM.md §2.1, §2.2, §2.7 */
+@layer base {
+  html {
+    color-scheme: light dark;
+    scroll-padding-top: calc(var(--header-h) + var(--sp-4));
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-text);
+    font-size: var(--fs-300);
+  }
+
+  /* Foco visível — 05 §2.7. Nunca remover sem substituto. */
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+
+  main {
+    display: block;
+  }
+
+  /* Alvos de toque mínimos — 05 §2.7 */
+  button,
+  a,
+  input,
+  select,
+  textarea,
+  summary,
+  [role='button'] {
+    min-block-size: 44px;
+  }
+
+  /* Elementos que não são alvo de toque isolado (ex: links inline em parágrafo) não herdam a regra acima */
+  p a,
+  li a,
+  .prose a {
+    min-block-size: unset;
+  }
+}

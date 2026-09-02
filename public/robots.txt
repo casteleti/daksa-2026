@@ -25,5 +25,5 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-# TODO:O5 — domínio final. Placeholder até então (astro.config.mjs `site`).
-Sitemap: https://example.invalid/sitemap-index.xml
+# O5 resolvido (01 §8): daksa.com.br. Ainda não está no ar nesse domínio (Fase 5, deploy).
+Sitemap: https://daksa.com.br/sitemap-index.xml

@@ -1,4 +1,4 @@
-# PLANEJAMENTO DE WEBSITE — [MARCA] · Consultoria de Operação Comercial
+# PLANEJAMENTO DE WEBSITE — Daksa · Consultoria de Operação Comercial
 
 **Status:** PLANNING COMPLETE — aguardando validação humana antes de implementação
 **Data:** 01/09/2026
@@ -27,7 +27,7 @@ Ordem de leitura para o Claude Code na implementação: 00 → 02 → 03 → 05 
 
 ## 1. Executive Summary — decisões principais
 
-**O que o site é:** produto digital de autoridade e aquisição para uma consultoria de operação comercial que implementa e opera sistemas comerciais (processo + CRM + dados + automação + agentes de IA) para indústrias e distribuidoras B2B de médio-grande porte. O site vende uma porta de entrada específica — o **Diagnóstico de Receita** — e sustenta a credibilidade de uma empresa de 23 anos que está se reposicionando.
+**O que o site é:** produto digital de autoridade e aquisição para uma consultoria de operação comercial que implementa e opera sistemas comerciais (processo + CRM + dados + automação + agentes de IA) para indústrias e distribuidoras B2B de médio-grande porte. O site vende uma porta de entrada específica — o **Diagnóstico de Receita** — e sustenta a credibilidade de uma empresa de 22 anos que está se reposicionando.
 
 **Decisões fechadas nesta fase:**
 
@@ -38,7 +38,7 @@ Ordem de leitura para o Claude Code na implementação: 00 → 02 → 03 → 05 
 | D3 | Hospedagem | **Cloudflare Pages + Workers (rotas de formulário) + DNS/WAF/CDN Cloudflare** | Edge global, custo previsível, Turnstile nativo, rollback atômico |
 | D4 | CMS | **Git-based (Astro Content Collections + Keystatic como UI editorial)** em v1; migrar para headless só se equipe editorial crescer | Editoria é 1–2 pessoas; preview e versionamento via Git; custo zero |
 | D5 | Conversão primária | **Solicitar Diagnóstico de Receita** (formulário qualificador de 2 etapas) | É a porta de entrada da escada de oferta; "Fale com um especialista" é conversão secundária |
-| D6 | Estado de lançamento | **Sem cases publicáveis.** Prova substituta: método, métricas que medimos, histórico de 23 anos, exemplo anonimizado de diagnóstico. Rota `/resultados/cases` existe mas fica fora do menu e `noindex` até haver 1 case real | Guardrail: não inventar cases, clientes ou números |
+| D6 | Estado de lançamento | **Sem cases publicáveis.** Prova substituta: método, métricas que medimos, histórico de 22 anos, exemplo anonimizado de diagnóstico. Rota `/resultados/cases` existe mas fica fora do menu e `noindex` até haver 1 case real | Guardrail: não inventar cases, clientes ou números |
 | D7 | Preços | **Não exibir valores.** Exibir a escada (4 etapas), o que cada uma entrega e que o Diagnóstico é creditado na implantação | Ticket alto, venda consultiva, preço ainda em validação |
 | D8 | ICP no site | **Indústrias** e **Distribuidoras & Atacadistas**. Serviços B2B e "operações comerciais complexas" NÃO entram no menu (ver decisão aberta O1) | Coerência com ICP validado; verticalização é o moat |
 | D9 | IA no site | Nunca é pilar de navegação. Aparece em "Como funciona" como método (agentes por função) e em páginas de profundidade técnica | Hierarquia Negócio → Problema → Resultado → Método → Tecnologia → Prova → Profundidade |
@@ -46,6 +46,8 @@ Ordem de leitura para o Claude Code na implementação: 00 → 02 → 03 → 05 
 | D11 | Motion | CSS + View Transitions API (nativo Astro) + Motion (mini) só dentro das ilhas. GSAP/Rive/Lottie fora de v1 | Um momento orquestrado na home; o resto responde a ação do usuário |
 | D12 | Idioma | pt-BR only em v1; estrutura preparada para `/en` futuro (rotas, hreflang, tokens de i18n em Content Collections) | ICP é brasileiro |
 | D13 | Analytics | GA4 + GTM (web) com Consent Mode v2; server-side GTM só na fase 3; eventos por taxonomia própria | Proporcional ao volume inicial |
+| D14 | Camada conceitual | **Estanqueidade** (vocabulário técnico de engenharia: vazamento, válvula, manômetro, calibração) reforça "vazamento de receita" já validado — nunca vira produto novo ou abre escopo (`01 §6`) | Vocabulário real do ICP (indústria/distribuição); rejeitamos "Cartografia do Próximo" por reabrir amplitude e paleta já implementadas |
+| D15 | Tipografia | 4ª família: **Fraunces itálico** (momentos editoriais, uso mínimo) + **Oswald condensada** (só em `PipeTag`/`Gauge`, única exceção de caixa alta do site) | Duas famílias eram simplistas para a variedade de vozes do site; nova família fica isolada em 2 componentes para não diluir a disciplina visual (`05 §2.2`) |
 
 ---
 
@@ -81,14 +83,14 @@ Ordem de leitura para o Claude Code na implementação: 00 → 02 → 03 → 05 
 
 Ver `09-ROADMAP-RISCOS-DECISOES.md`, seção "Decisões abertas". Resumo do que exige intervenção humana:
 
-- **O1** Nome/arquitetura de marca (marca-mãe de 23 anos vs. unidade nomeada) — afeta domínio, schema `Organization`, "Sobre" e URLs.
+- ~~**O1** Nome/arquitetura de marca~~ **RESOLVIDO:** Daksa, fundada em 2004 (22 anos). Pivô integral: descontinua branding/embalagens/marketing digital/campanhas; passa a ser 100% consultoria de operação comercial B2B com IA. Arquitetura pública do site permanece a estreita já validada (Diagnóstico → Implantação → Estabilização → Operação); IA continua como método, nunca pilar de menu.
 - **O2** Confirmação final do ICP no menu (2 segmentos vs. 4).
 - **O3** Confirmação de não exibir preço.
 - **O4** Fotografia: banco de imagens industrial licenciado vs. sessão fotográfica própria (afeta hero e "Para quem").
-- **O5** Domínio e e-mail de envio de formulários (SPF/DKIM).
-- **O6** CRM de destino dos leads e campos obrigatórios.
+- ~~**O5** Domínio~~ **RESOLVIDO:** substituição integral de daksa.com.br; DNS sob controle próprio. Requer mapa de redirecionamento 301 das URLs antigas (agora obrigatório, não opcional — ver O8) antes do lançamento (Fase 5). E-mail de envio de formulários (SPF/DKIM) segue em aberto.
+- **O6** CRM de destino dos leads e campos obrigatórios — confirmado que existe um CRM em uso; **nome ainda não informado**.
 
-Sem O1, O5 e O6 a implementação não pode começar. O2–O4 podem ser resolvidos durante a fase 1.
+Falta apenas o nome do CRM (O6) e o e-mail de envio transacional para a implementação prosseguir sem stub nessas duas frentes. O2–O4 podem ser resolvidos durante a fase 1.
 
 ---
 

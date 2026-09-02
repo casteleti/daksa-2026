@@ -15,11 +15,18 @@ export function organizationSchema(): JsonLd {
     name: site.name,
     legalName: site.legalName,
     url: site.url,
-    // TODO:O1 logo real (SVG) — fase 0/4.
-    // foundingDate: TODO:O7 — ano real de fundação.
-    foundingDate: String(site.foundingYear),
+    // TODO:O1 — falta o logo real em SVG (public/favicon.svg hoje é placeholder geométrico).
+    foundingDate: String(site.foundingYear), // 2004 — resolvido, 01 §8
     areaServed: 'BR',
-    sameAs: [site.social.linkedin].filter((url) => !url.includes('TODO')),
+    sameAs: [site.social.linkedin],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      email: site.email,
+      telephone: site.phone,
+      contactType: 'customer service',
+      areaServed: 'BR',
+      availableLanguage: 'Portuguese',
+    },
   };
 }
 

@@ -3,8 +3,8 @@
 
 /**
  * Bindings/secrets do Worker de produção — fonte: 02-STACK-INFRA-SEGURANCA.md §3, §5.
- * Todos pendentes de O5 (e-mail/domínio) e O6 (CRM); em dev ficam undefined e o endpoint
- * cai no modo mock (ver src/pages/api/lead.ts).
+ * Todos pendentes de O5b (provedor de e-mail transacional) e O6 (nome do CRM); em dev
+ * ficam undefined e o endpoint cai no modo mock (ver src/pages/api/lead.ts).
  *
  * `Astro.locals.runtime.env` foi removido a partir do Astro v6 — bindings agora se acessam
  * via `import { env } from 'cloudflare:workers'` (ver src/pages/api/lead.ts). Este projeto
@@ -15,8 +15,8 @@ declare module 'cloudflare:workers' {
   interface CloudflareEnv {
     TURNSTILE_SECRET_KEY?: string;
     CRM_WEBHOOK_URL?: string; // TODO:O6
-    RESEND_API_KEY?: string; // TODO:O5 (ou Postmark)
-    LEAD_NOTIFICATION_EMAIL?: string; // TODO:O5
+    RESEND_API_KEY?: string; // TODO:O5b (ou Postmark)
+    LEAD_NOTIFICATION_EMAIL?: string; // TODO:O5b
   }
   export const env: CloudflareEnv;
 }

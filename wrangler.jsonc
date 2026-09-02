@@ -1,15 +1,17 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  // TODO:O1 — nome final do projeto/domínio (afeta o nome do Worker no dashboard Cloudflare).
+  // O1 resolvido: Daksa (01 §8). Nome técnico do Worker mantido como "site-daksa" — não há
+  // motivo para mudar, domínio real é daksa.com.br.
   "name": "site-daksa",
   // Alinhado à versão de workerd resolvida localmente (ver package-lock.json) para garantir
   // paridade entre `astro dev`/`astro build` e o runtime de produção.
   "compatibility_date": "2026-08-31",
   "compatibility_flags": ["nodejs_compat"],
 
-  // TODO:O6 — bindings reais (D1 para fallback de lead, Queues para retry de CRM/e-mail,
-  // KV para sessão do adapter) entram na Fase 2 (09 §1), quando o CRM de destino e o
-  // domínio estiverem definidos. Sem eles, /api/lead roda em modo stub (ver src/pages/api/lead.ts).
+  // TODO:O6/O5b — bindings reais (D1 para fallback de lead, Queues para retry de CRM/e-mail,
+  // KV para sessão do adapter) entram na Fase 2 (09 §1). Domínio já está resolvido
+  // (daksa.com.br); falta o nome do CRM (O6) e o provedor de e-mail transacional (O5b).
+  // Sem eles, /api/lead roda em modo stub (ver src/pages/api/lead.ts).
   //
   // "d1_databases": [{ "binding": "LEADS_DB", "database_name": "TODO", "database_id": "TODO" }],
   // "queues": { "producers": [{ "binding": "LEAD_RETRY_QUEUE", "queue": "TODO" }] },

@@ -1,21 +1,28 @@
 /**
- * Dados globais do site. Campos marcados TODO:O# dependem de decisões abertas
- * em 09-ROADMAP-RISCOS-DECISOES.md §3 — ver docs/inputs.md.
+ * Dados globais do site. Dados reais da empresa — fonte: 01-CONTEXTO-POSICIONAMENTO-COPY.md §8
+ * ("Dados reais da empresa (resolvidos)"). Campos ainda marcados TODO:O# dependem de
+ * decisões abertas em 09-ROADMAP-RISCOS-DECISOES.md §3 — ver docs/inputs.md.
  */
 export const site = {
-  /** TODO:O1 — nome/arquitetura de marca ainda não definida. */
-  name: '[MARCA]',
-  legalName: '[MARCA]',
+  name: 'Daksa',
+  legalName: 'Daksa',
   tagline: 'Operação comercial. Resultado, não relatório.',
-  /** TODO:O5 — domínio final. Placeholder inválido de propósito para não colar em produção. */
-  url: 'https://example.invalid',
-  /** TODO:O5 — e-mail de contato/envio (SPF/DKIM/DMARC, Resend ou Postmark). */
-  email: '[email]',
-  /** TODO:O7 — ano real de fundação (01 §1 cita "23 anos"; 04 usa "desde 2003" como exemplo a ajustar). */
-  foundingYear: 2003,
-  /** TODO:O9 — apenas LinkedIn em v1. URL real pendente. */
+  url: 'https://daksa.com.br',
+  email: 'atendimento@daksa.com.br',
+  phone: '+55 16 99740-0144',
+  address: {
+    street: 'R. Floriano Peixoto, 20',
+    neighborhood: 'Centro',
+    city: 'Jaboticabal',
+    state: 'SP',
+    postalCode: '14870-370',
+    country: 'BR',
+  },
+  /** 2004 → 22 anos completos em 2026 (01 §8). */
+  foundingYear: 2004,
   social: {
-    linkedin: 'https://www.linkedin.com/company/TODO-O9',
+    linkedin: 'https://br.linkedin.com/company/daksa---marketing-e-tecnologia',
+    // Instagram/Facebook existem mas ficam fora do site (O9, 09 §3) — não adicionar aqui.
   },
   locale: 'pt-BR',
   themeColor: {

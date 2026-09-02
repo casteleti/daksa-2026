@@ -88,7 +88,7 @@ Regra de URL: minúsculas, hífens, sem acentos, trailing slash consistente (`tr
 | 12 | Cases (lista) | `/resultados/cases/` | Lista | P2 (oculta) | Dono | — | — |
 | 13 | Case | `/resultados/cases/[slug]/` | Artigo | P2 | Dono | Por case | Diagnóstico |
 | 14 | Sobre (hub) | `/sobre/` | Hub | P1 | Todos | Navegacional | Contato |
-| 15 | Nossa história | `/sobre/nossa-historia/` | Institucional | P1 | Dono | "[MARCA]" | Contato |
+| 15 | Nossa história | `/sobre/nossa-historia/` | Institucional | P1 | Dono | "Daksa" | Contato |
 | 16 | Como pensamos | `/sobre/como-pensamos/` | Manifesto | P1 | Diretor / TI | — | Diagnóstico |
 | 17 | Insights (lista) | `/insights/` | Lista | P1 | Gerente / analista | Informacional | Newsletter (fase 2) |
 | 18 | Insight | `/insights/[slug]/` | Artigo | P1 | Gerente / analista | Por tema | Diagnóstico (contextual) |
@@ -119,7 +119,7 @@ Especificação completa em `04-HOME-DETALHADA.md`.
 - **Objetivo:** apresentar a escada e rotear para a etapa certa
 - **Seções:** intro (título + 2 frases) · escada em 4 cards ligados (timeline horizontal desktop / vertical mobile) · "Como funciona" destaque · FAQ (5 perguntas) · CTA final
 - **Copy:** 01 §5.5, §5.10
-- **SEO:** title "O que fazemos — consultoria de operação comercial | [MARCA]" · H1 "Do diagnóstico à operação, em quatro etapas" · description "Diagnóstico de receita em 5 dias, implantação do sistema comercial, estabilização e operação contínua para indústrias e distribuidoras B2B."
+- **SEO:** title "O que fazemos — consultoria de operação comercial | Daksa" · H1 "Do diagnóstico à operação, em quatro etapas" · description "Diagnóstico de receita em 5 dias, implantação do sistema comercial, estabilização e operação contínua para indústrias e distribuidoras B2B."
 - **Schema:** `Service` (4, com `hasOfferCatalog` na Organization), `BreadcrumbList`, `FAQPage`
 - **Eventos:** `service_card_click{service}`, `faq_open{question}`, `cta_click{location:'hub-final'}`
 - **Mobile:** timeline vertical com linha conectora; cards expandem por `<details>`
@@ -128,7 +128,7 @@ Especificação completa em `04-HOME-DETALHADA.md`.
 - **Objetivo:** explicar a porta de entrada e remover risco
 - **Seções:** hero de serviço (H1 + o que você recebe em 3 linhas + CTA) · "Os 5 dias" (D1 imersão, D2–3 análise, D4 desenho, D5 devolutiva) como stepper · "O que você recebe" (número do vazamento, 3 correções, viabilidade técnica, proposta de implantação) · "O que precisamos de você" (acesso ao CRM, 2 h do diretor, 1 h de 2 vendedores) · **Calculadora de vazamento** (ilha: oportunidades/mês, ticket médio, conversão → "1 ponto de conversão = R$ X/mês") · "Creditado na implantação" · FAQ · CTA
 - **Copy:** 01 §5.5 item 1 + nova microcopy seguindo §4
-- **SEO:** title "Diagnóstico de receita em 5 dias | [MARCA]" · H1 "Diagnóstico de receita: o número antes do investimento" · description "Em 5 dias medimos quanto sua empresa perde entre o primeiro contato e o pedido, e entregamos as três correções prioritárias. Creditado na implantação."
+- **SEO:** title "Diagnóstico de receita em 5 dias | Daksa" · H1 "Diagnóstico de receita: o número antes do investimento" · description "Em 5 dias medimos quanto sua empresa perde entre o primeiro contato e o pedido, e entregamos as três correções prioritárias. Creditado na implantação."
 - **Schema:** `Service` + `FAQPage` + `BreadcrumbList`
 - **Eventos:** `calculator_start`, `calculator_complete{leak_estimate_bucket}`, `cta_click{location:'service-diagnostico'}`
 - **Mobile:** calculadora com inputs numéricos (`inputmode=decimal`), resultado sticky no rodapé enquanto edita; stepper vertical
@@ -136,7 +136,7 @@ Especificação completa em `04-HOME-DETALHADA.md`.
 ### 4.4 Implantação `/o-que-fazemos/implantacao/`
 - **Objetivo:** mostrar que implementamos de verdade (não só aconselhamos) e o que muda no dia a dia
 - **Seções:** hero · "O que entra no sistema" (6 blocos: processo, CRM, dados, integrações, automação, agentes) · **SystemDiagram** (visualização do fluxo entrada → qualificação → CRM → follow-up → humano → dado; ilha com hover/tap em cada nó) · "Semana a semana" (2–3 semanas) · "Usamos o seu CRM" (lista de CRMs comuns: Ploomes, HubSpot, Pipedrive, RD, Salesforce, Mercos, Bitrix — como texto, sem logos) · "Papéis: o que fazemos, o que seu time faz" · link para Tecnologia · CTA
-- **SEO:** title "Implantação do sistema comercial | [MARCA]" · H1 "Implantação: o sistema comercial no ar em semanas, não meses" · description "Processo redesenhado, CRM configurado para o que o vendedor faz, dados limpos, integrações e agentes de IA para qualificação e follow-up. Em 2 a 3 semanas."
+- **SEO:** title "Implantação do sistema comercial | Daksa" · H1 "Implantação: o sistema comercial no ar em semanas, não meses" · description "Processo redesenhado, CRM configurado para o que o vendedor faz, dados limpos, integrações e agentes de IA para qualificação e follow-up. Em 2 a 3 semanas."
 - **Schema:** `Service`, `BreadcrumbList`, `HowTo` (semana a semana) apenas se conteúdo for realmente instrucional — caso contrário não usar
 - **Eventos:** `diagram_node_open{node}`, `tech_link_click`, `cta_click`
 - **Mobile:** diagrama vira lista vertical de nós com expansão; sem pan/zoom obrigatório
@@ -144,41 +144,41 @@ Especificação completa em `04-HOME-DETALHADA.md`.
 ### 4.5 Estabilização `/o-que-fazemos/estabilizacao/`
 - **Objetivo:** explicar por que 60 dias e o que acontece
 - **Seções:** hero · "Por que sistemas morrem no 2º mês" (3 causas) · "O que fazemos nos 60 dias" (semanas 1–2 / 3–4 / 5–8) · indicadores acompanhados · transição para operação · CTA
-- **SEO:** title "Estabilização: 60 dias no mundo real | [MARCA]" · H1 "Estabilização: 60 dias para provar que funciona"
+- **SEO:** title "Estabilização: 60 dias no mundo real | Daksa" · H1 "Estabilização: 60 dias para provar que funciona"
 - **Schema:** `Service`, `BreadcrumbList`
 - **Mobile:** timeline vertical
 
 ### 4.6 Operação contínua `/o-que-fazemos/operacao-continua/`
 - **Objetivo:** vender a recorrência como operação, não como "suporte"
 - **Seções:** hero · "O que é operar um sistema comercial" · rotina mensal (monitoramento, indicadores, melhorias, reunião executiva) · "Expansão do ciclo de receita" (cotação, pós-venda, recompra, renovação — a amplitude entra AQUI, como evolução) · "Documentado e transferível" (neutraliza dependência) · CTA
-- **SEO:** title "Operação contínua do sistema comercial | [MARCA]" · H1 "Operação contínua: sistema comercial é operação, não projeto"
+- **SEO:** title "Operação contínua do sistema comercial | Daksa" · H1 "Operação contínua: sistema comercial é operação, não projeto"
 - **Schema:** `Service`, `BreadcrumbList`
 
 ### 4.7 Como funciona `/o-que-fazemos/como-funciona/`
 - **Objetivo:** página-ponte entre negócio e tecnologia; explica método e agentes
 - **Seções:** hero (H1 + intro) · "Cinco etapas" (Diagnóstico → Desenho → Implantação → Estabilização → Operação) com stepper · "Decisão humano × IA" (tabela: o que o agente faz sozinho / o que sugere / o que só o humano decide) · **Agentes por função** (4 cards da 01 §5.6, cada um com job → KPI → permissões → logs → escalada) · **Representação de IA** (DADO → CONTEXTO → RACIOCÍNIO → AÇÃO → SUPERVISÃO → RESULTADO; diagrama linear animado no scroll, com fallback estático) · "Governança" resumo + link Tecnologia · FAQ técnico-leve · CTA
-- **SEO:** title "Como funciona: método e agentes de IA com supervisão | [MARCA]" · H1 "Agentes de IA com função, meta e supervisão. Não um chatbot." · description "Cinco etapas, decisão humano × IA explícita e quatro agentes com indicador, permissões, logs e escalada humana. Veja como operamos o sistema comercial."
+- **SEO:** title "Como funciona: método e agentes de IA com supervisão | Daksa" · H1 "Agentes de IA com função, meta e supervisão. Não um chatbot." · description "Cinco etapas, decisão humano × IA explícita e quatro agentes com indicador, permissões, logs e escalada humana. Veja como operamos o sistema comercial."
 - **Schema:** `WebPage` + `FAQPage` + `BreadcrumbList`; `DefinedTerm` para cada agente (entidade citável — GEO)
 - **Eventos:** `agent_card_open{agent}`, `humanai_table_view` (scroll ≥ 50%), `tech_link_click`
 - **Mobile:** tabela humano × IA vira cards empilhados por linha; agentes em acordeão
 
 ### 4.8 Para quem (hub) `/para-quem/`
 - **Seções:** intro "Trabalhamos com quem vende B2B com ciclo consultivo" · 2 cards grandes (Indústrias / Distribuidoras) com sinais de fit (bullets) · "Não é para você se…" (3 bullets honestos: venda transacional B2C, sem time comercial, sem CRM e sem intenção de ter) · CTA
-- **SEO:** title "Para quem — indústrias e distribuidoras B2B | [MARCA]"
+- **SEO:** title "Para quem — indústrias e distribuidoras B2B | Daksa"
 
 ### 4.9 Indústrias `/para-quem/industrias/`
 - **Seções:** hero segmentado (01 §5.7) · "Como a oportunidade entra e onde trava" (fluxo típico: cotação técnica → engenharia → representante → proposta → follow-up longo) · "Sinais de que há vazamento" (5) · "O que o sistema faz na indústria" (mapeia 4 agentes ao contexto) · vocabulário (glossário curto: cotação, representante, engenheiro de aplicação, pedido recorrente — GEO) · FAQ · CTA
-- **SEO:** title "Operação comercial para indústrias B2B | [MARCA]" · H1 "Para indústrias B2B com venda consultiva" · description "Cotação técnica, representante, ciclo longo. Encontramos onde a oportunidade trava na sua indústria e implantamos o sistema que corrige."
+- **SEO:** title "Operação comercial para indústrias B2B | Daksa" · H1 "Para indústrias B2B com venda consultiva" · description "Cotação técnica, representante, ciclo longo. Encontramos onde a oportunidade trava na sua indústria e implantamos o sistema que corrige."
 - **Schema:** `WebPage` com `about: Industry`, `FAQPage`, `BreadcrumbList`
 
 ### 4.10 Distribuidoras & atacadistas `/para-quem/distribuidoras-e-atacadistas/`
 - Espelho de 4.9 com contexto: carteira, recompra, vendedor de carteira, SKU, clientes inativos, pedido que deveria ser recorrente. Agente de reativação em destaque.
-- **SEO:** title "Operação comercial para distribuidoras e atacadistas | [MARCA]" · H1 "Para distribuidoras com carteira grande e recompra"
+- **SEO:** title "Operação comercial para distribuidoras e atacadistas | Daksa" · H1 "Para distribuidoras com carteira grande e recompra"
 
 ### 4.11 Resultados `/resultados/`
 - **Objetivo:** prova sem inventar
 - **Seções:** hero "O que medimos antes, durante e depois" · tabela de métricas (01 §5.8) como **MetricTable** com definição de cada métrica em tooltip/expansão · "Como fazemos baseline" (3 passos) · "Exemplo anonimizado de devolutiva de diagnóstico" (mock com dados sintéticos, rotulado como exemplo ilustrativo) · nota de honestidade · [slot para cases quando existirem] · CTA
-- **SEO:** title "Resultados: o que medimos e como provamos | [MARCA]" · H1 "O que medimos antes, durante e depois" · description "Não prometemos receita. Medimos tempo de resposta, follow-ups no prazo, oportunidades recuperadas e conversão por etapa. Veja como fazemos baseline."
+- **SEO:** title "Resultados: o que medimos e como provamos | Daksa" · H1 "O que medimos antes, durante e depois" · description "Não prometemos receita. Medimos tempo de resposta, follow-ups no prazo, oportunidades recuperadas e conversão por etapa. Veja como fazemos baseline."
 - **Schema:** `WebPage`, `BreadcrumbList`; **não** usar `Review`/`AggregateRating`
 - **Eventos:** `metric_definition_open{metric}`, `example_view`
 
@@ -189,10 +189,10 @@ Especificação completa em `04-HOME-DETALHADA.md`.
 - Intro + 2 cards (Nossa história / Como pensamos) + equipe (fase 2, só com fotos reais) + CTA contato
 
 ### 4.15 Nossa história `/sobre/nossa-historia/`
-- **Objetivo:** usar os 23 anos como lastro de confiança e explicar a evolução sem parecer "virou outra empresa"
-- **Seções:** hero · timeline (4–5 marcos reais: fundação → web → marketing B2B → apoio a vendas/CRM → operação comercial com IA) · "O que aprendemos em 23 anos" (3 lições que justificam o modelo atual) · "Onde estamos hoje" · [nome do fundador] com foto real · CTA contato
+- **Objetivo:** usar os 22 anos como lastro de confiança e explicar a evolução sem parecer "virou outra empresa"
+- **Seções:** hero · timeline (4–5 marcos reais: fundação → web → marketing B2B → apoio a vendas/CRM → operação comercial com IA) · "O que aprendemos em 22 anos" (3 lições que justificam o modelo atual) · "Onde estamos hoje" · [nome do fundador] com foto real · CTA contato
 - **Aqui a amplitude de capacidade tem espaço legítimo** (marketing, tecnologia, dados) — como história, não como oferta
-- **SEO:** title "Nossa história — 23 anos com empresas B2B | [MARCA]" · **Schema:** `AboutPage`, `Organization` (foundingDate), `Person` (fundador)
+- **SEO:** title "Nossa história — 22 anos com empresas B2B | Daksa" · **Schema:** `AboutPage`, `Organization` (foundingDate), `Person` (fundador)
 
 ### 4.16 Como pensamos `/sobre/como-pensamos/`
 - **Seções:** hero "IA não conserta processo ruim. Ela acelera." · 6 princípios (processo antes de tecnologia; usar o CRM do cliente; agente com função e KPI; humano decide o crítico; medir antes de prometer; operar, não entregar e sumir) · "Como trabalhamos com seu time" · CTA
@@ -207,7 +207,7 @@ Especificação completa em `04-HOME-DETALHADA.md`.
 - **Layout:** 2 colunas desktop (esquerda: o que você recebe + 5 dias + "creditado" + microprova; direita: formulário sticky) / mobile: formulário primeiro, contexto abaixo em acordeão
 - **Formulário:** 2 etapas (01 §5.11); ilha Preact com fallback single-step; Turnstile invisível; validação inline ao sair do campo; salvamento de rascunho em memória entre etapas
 - **Sem menu completo:** header reduzido (logo + voltar) para reduzir fuga; footer mínimo
-- **SEO:** title "Solicitar diagnóstico de receita | [MARCA]" · H1 "Solicitar diagnóstico de receita" · `noindex`? **Não** — indexável (intenção transacional), mas sem competir com a página de serviço: canonical própria, conteúdo distinto (conversão vs. explicação)
+- **SEO:** title "Solicitar diagnóstico de receita | Daksa" · H1 "Solicitar diagnóstico de receita" · `noindex`? **Não** — indexável (intenção transacional), mas sem competir com a página de serviço: canonical própria, conteúdo distinto (conversão vs. explicação)
 - **Eventos:** `form_view`, `form_start`, `form_step{step}`, `form_error{field}`, `form_submit`, `lead_qualified{tier}` (calculado no Worker por segmento + tamanho de time)
 - **Mobile:** CTA sticky no rodapé quando o formulário sai da viewport; teclado não cobre botão (`dvh` + scroll into view)
 
@@ -243,7 +243,7 @@ Especificação completa em `04-HOME-DETALHADA.md`.
 
 | Persona | Intenção | Pergunta | Objeção | Caminho | Conteúdo-chave | CTA | Evento de sucesso |
 |---|---|---|---|---|---|---|---|
-| Dono / CEO | Aumentar receita sem contratar | "Isso dá retorno?" | "É mais uma consultoria" | Home → Resultados → Como funciona → Diagnóstico | O que medimos; creditado; 23 anos | Diagnóstico | `form_submit` |
+| Dono / CEO | Aumentar receita sem contratar | "Isso dá retorno?" | "É mais uma consultoria" | Home → Resultados → Como funciona → Diagnóstico | O que medimos; creditado; 22 anos | Diagnóstico | `form_submit` |
 | Diretor comercial | Resolver follow-up/CRM | "Resolve meu problema hoje?" | "Meu time não vai usar" | Home → Diagnóstico (serviço) → Implantação → Diagnóstico | 5 sintomas; papéis; estabilização | Diagnóstico | `form_submit` |
 | Gerente marketing | Atribuir receita ao marketing | "Vocês mexem no meu funil?" | "Vão substituir a agência" | Home → Como funciona → Operação contínua → Contato | Ciclo inteiro; dados; usamos seu CRM | Contato | `contact_submit` |
 | Analista CRM/BI | Integrar sem trocar ferramenta | "Integra com o que tenho?" | "Vão bagunçar meu CRM" | Como funciona → Tecnologia/Integrações → Contato | Integrações; dados limpos; documentado | Contato | `tech_page_view` ≥ 2 + `contact_submit` |

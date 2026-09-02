@@ -49,7 +49,7 @@ Cada fase termina com um checkpoint verificável. Nenhuma fase começa sem a ant
 
 ### Fase 5 — Lançamento (2 dias)
 1. Checklist de release (08 §5).
-2. DNS, SSL, HSTS (sem preload ainda), redirects do site antigo (se houver — mapa de URLs antigas → novas, 301).
+2. DNS, SSL, HSTS (sem preload ainda), redirects 301 do site antigo daksa.com.br — **obrigatório** (O8): mapa completo das 5 páginas de serviço (Branding, Embalagens, Marketing Digital, Campanhas, Criação de Sites), portfólio (Lipid, UCBVet, Yosen, Mandubim) e institucionais (Quem Somos, Contato) → páginas novas equivalentes ou home, via Search Console + crawl prévio.
 3. Search Console, Bing, IndexNow, GA4 produção, Sentry produção, uptime.
 4. Monitoramento intensivo 72 h.
 **Checkpoint:** site em produção; CWV de campo coletando; primeiro lead real ou lead de teste em produção.
@@ -70,7 +70,7 @@ Total estimado até lançamento: **16–20 dias úteis** de implementação + te
 |---|---|---|---|---|---|
 | R1 | Copy da home não ressoa com o ICP (headline, "diagnóstico", vocabulário) | Média | Alto | Fase 0: 2–3 conversas; H1 alternativos prontos; CRO na fase 6 | P1 |
 | R2 | Site premium lançado antes de validar preço/ICP; retrabalho de posicionamento | Média | Alto | Conteúdo em collections (troca sem refatorar); não exibir preço; segmentos como dados | P1 |
-| R3 | Zero cases enfraquece conversão | Alta | Médio | Prova substituta (método, métricas, 23 anos, exemplo rotulado); ativar cases assim que houver | P1 |
+| R3 | Zero cases enfraquece conversão | Alta | Médio | Prova substituta (método, métricas, 22 anos, exemplo rotulado); ativar cases assim que houver | P1 |
 | R4 | Direção visual cai no clichê de "design gerado" | Média | Médio | Regras 05 §1; revisão visual humana em fase 2; um momento memorável, resto disciplinado | P1 |
 | R5 | Fotografia de banco genérica destrói a especificidade | Média | Médio | Critérios 05 §4; preferir sessão própria (O4); sem foto é melhor que foto errada | P2 |
 | R6 | Formulário de 2 etapas reduz volume | Média | Médio | Fallback single-step; CRO hipótese 3; medir tier vs. volume | P2 |
@@ -80,7 +80,7 @@ Total estimado até lançamento: **16–20 dias úteis** de implementação + te
 | R10 | Conteúdo técnico (Tecnologia) promete mais do que a operação entrega | Média | Alto | Revisão pelo especialista técnico; linguagem de capacidade atual, não roadmap | P1 |
 | R11 | Dependência do fundador para conteúdo e revisão atrasa fases 3–4 | Alta | Médio | Conteúdo em paralelo desde a fase 1; templates de insight | P2 |
 | R12 | Schema não corresponde ao visível (penalidade) | Baixa | Médio | Validação no CI; sem Review/Rating | P3 |
-| R13 | Site antigo (23 anos) tem URLs/backlinks que serão perdidos | Alta | Médio | Mapa de redirects 301 antes do lançamento; GSC do domínio antigo | P1 |
+| R13 | Site antigo (22 anos) tem URLs/backlinks que serão perdidos | Alta | Médio | Mapa de redirects 301 antes do lançamento; GSC do domínio antigo | P1 |
 | R14 | "Amplitude" volta a entrar por conteúdo (insights sobre automação genérica) | Média | Médio | Content-guide com escopo; tags fechadas; revisão de PR | P2 |
 
 **Trade-offs assumidos:**
@@ -100,16 +100,18 @@ Total estimado até lançamento: **16–20 dias úteis** de implementação + te
 
 | # | Decisão | Opções | Recomendação | Bloqueia |
 |---|---|---|---|---|
-| **O1** | Nome e arquitetura de marca | (a) marca-mãe de 23 anos como nome do site; (b) unidade nomeada "[Marca] Operação Comercial"; (c) marca nova | **(b)** — usa a confiança da marca-mãe e sinaliza oferta nova; domínio da marca-mãe com seção ou subdomínio | Fase 1 |
+| **O1** | Nome e arquitetura de marca | — | **RESOLVIDO.** Daksa, fundada em 2004 (22 anos em 2026). Pivô integral: descontinua branding, embalagens, marketing digital genérico e campanhas publicitárias como oferta pública; passa a ser 100% consultoria de operação comercial B2B com IA. Não é unidade nomeada — é a empresa inteira. Arquitetura pública do site permanece a estreita já validada; "vendas e IA com outras automações" é visão de longo prazo, mas entra no site só como expansão de conta em Operação Contínua (`03 §4.6`), nunca como pilar de menu | — |
 | **O2** | ICP no menu | 2 segmentos vs. 4 | **2** (indústrias, distribuidoras) | Fase 3 |
 | **O3** | Exibir preço | não / faixa / "a partir de" | **não** em v1; revisar após 5 diagnósticos | Fase 3 |
 | **O4** | Fotografia | banco licenciado / sessão própria / sem foto (tipografia + diagramas) | **sessão própria** se viável em 3 semanas; senão **sem foto** no lançamento (segmentos com fundo grafite + glifo) — melhor que banco genérico | Fase 3 |
-| **O5** | Domínio, www/apex, e-mail de envio (SPF/DKIM/DMARC), provedor transacional | — | Resend ou Postmark; apex canônico | Fase 1 |
-| **O6** | CRM de destino e campos | — | o CRM que a própria operação usará (dogfooding) | Fase 2 |
-| O7 | Ano de fundação, marcos da história, nome/foto do fundador | — | dados reais | Fase 4 |
-| O8 | Redirects do site atual | mapa de URLs | inventário via GSC + crawl | Fase 5 |
-| O9 | LinkedIn e outros `sameAs` | — | só LinkedIn em v1 | Fase 1 |
+| **O5** | Domínio | manter atual / subdomínio / domínio novo / substituição integral | **RESOLVIDO: substituição integral** de daksa.com.br. DNS sob controle próprio, sem bloqueio técnico. Consequência: O8 (redirects) vira obrigatório | — |
+| O5b | E-mail de envio (SPF/DKIM/DMARC), provedor transacional | — | Resend ou Postmark; apex canônico | **Em aberto** — Fase 1/2 |
+| **O6** | CRM de destino e campos | — | confirmado que já usam um CRM; **nome ainda não informado** | **Em aberto** — Fase 2 |
+| ~~O7~~ | Ano de fundação, marcos da história, nome/foto do fundador | — | **Parcial:** fundação 2004 resolvida. Falta nome/foto do fundador e marcos intermediários da timeline (`03 §4.15`) | Fase 4 |
+| **O8** | Redirects do site atual (agora obrigatório) | mapa de URLs | inventário via Search Console + crawl de daksa.com.br (5 páginas de serviço + portfólio + institucionais) → 301 para páginas novas equivalentes ou para a home | Fase 5 |
+| O9 | LinkedIn e outros `sameAs` | — | só LinkedIn em v1 (Instagram/Facebook existem mas ficam fora do novo site) | Fase 1 |
 | O10 | Textos legais (privacidade, termos) | — | revisão jurídica | Fase 4 |
+| O12 | Destino do portfólio antigo (Lipid, UCBVet, Yosen, Mandubim) e páginas de Branding/Embalagens/Campanhas | arquivar / remover / reaproveitar | **Não usar no v1.** Revisitar pós-lançamento — são cases de branding/embalagens, não de operação comercial B2B, então provavelmente exigem reformulação, não republicação direta | Pós-lançamento |
 | O11 | Google-Extended (treino de IA) permitir? | permitir / bloquear | permitir | Fase 1 |
 
 ---

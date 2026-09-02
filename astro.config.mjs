@@ -16,9 +16,10 @@ import sitemap from '@astrojs/sitemap';
 // ilhas + View Transitions + Content Collections descrita no plano é idêntica.
 
 export default defineConfig({
-  // site: 'https://TODO-O5.example' — domínio final depende de O5 (09 §3).
-  // Placeholder para não quebrar sitemap/canonical em build; substituir no deploy.
-  site: 'https://example.invalid',
+  // O5 resolvido (01 §8, 09 §3): substituição integral de daksa.com.br, apex (sem www),
+  // DNS sob controle da Daksa. O site novo ainda não está no ar nesse domínio — isso é
+  // Fase 5 (deploy) — mas a URL canônica já é a real para sitemap/canonical/JSON-LD.
+  site: 'https://daksa.com.br',
   output: 'static',
   trailingSlash: 'always',
   prefetch: {

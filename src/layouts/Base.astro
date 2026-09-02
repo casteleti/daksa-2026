@@ -82,8 +82,8 @@ const graph = jsonLdGraph(websiteSchema(), organizationSchema(), ...jsonLd);
     <meta property="og:site_name" content={site.name} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- Consent Mode v2 default — precisa rodar antes do GTM (08 §1.1). GTM em si
-         entra na Fase 2 (TODO:O5/O6 não bloqueiam isto, mas o container GTM real sim). -->
+    <!-- Consent Mode v2 default — precisa rodar antes do GTM (08 §1.1). Container GTM real
+         entra na Fase 2; nem O5b (e-mail) nem O6 (CRM) bloqueiam isto. -->
     <script is:inline set:html={consentDefaultScript()} />
 
     <script is:inline type="application/ld+json" set:html={graph} />

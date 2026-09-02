@@ -1,87 +1,114 @@
 # Inputs pendentes — Fase 1 → Fase 2
 
-Checkpoint da Fase 1 (fundação técnica, `09-ROADMAP-RISCOS-DECISOES.md` §1). Este arquivo
-lista exatamente o que falta para eu (ou quem continuar a implementação) avançar sem
-inventar dado ou decisão. Toda ocorrência no código está marcada com o comentário
-`TODO:O<número>` correspondente à decisão aberta de `09 §3` — grep por `TODO:O` acha todas.
+Checkpoint da Fase 1 (fundação técnica, `09-ROADMAP-RISCOS-DECISOES.md` §1), **atualizado**
+após a segunda leitura do planejamento (docs revisados por você — O1 e O5 resolvidos com
+dados reais da Daksa). Este arquivo lista exatamente o que ainda falta para avançar sem
+inventar dado ou decisão. Toda ocorrência remanescente no código está marcada com o
+comentário `TODO:O<número>` — grep por `TODO:O` acha todas.
 
 ---
 
-## 1. Decisões bloqueantes (O1, O5, O6) — ainda não resolvidas
+## 1. O1 e O5 — resolvidos, dados reais já aplicados no código
 
-Confirmado na Fase 0 (conversa anterior): **nenhuma das três foi resolvida.** Onde
-esbarraram no código desta fase, usei placeholder e segui em frente, conforme instruído.
+`01 §8` trouxe os dados reais da empresa. Já atualizei:
 
-### O1 — Nome/arquitetura de marca
+- `src/data/site.ts`: `name`/`legalName` = `Daksa`; `url` = `https://daksa.com.br`;
+  `email` = `atendimento@daksa.com.br`; `phone` = `+55 16 99740-0144`; `address` (Jaboticabal
+  – SP); `foundingYear` = `2004`; `social.linkedin` = URL real.
+- `astro.config.mjs`: `site: 'https://daksa.com.br'`.
+- `public/robots.txt`: `Sitemap:` aponta para `daksa.com.br`.
+- `wrangler.jsonc`: comentários de O1/O6 atualizados; nome técnico do Worker mantido
+  (`site-daksa`, sem motivo para mudar).
+- `src/lib/schema.ts` (`organizationSchema`): `foundingDate` real (2004) e `contactPoint`
+  novo (e-mail/telefone reais); `sameAs` sem o filtro de placeholder (LinkedIn real).
+  Logo em SVG ainda **não** existe — ver abaixo.
+- `src/components/nav/Footer.astro`: endereço real exibido (sem CNPJ — não fornecido).
+- `src/content/timeline/fundacao.json`: ano corrigido para 2004.
+- Todos os `seo.title` de conteúdo de exemplo (`[MARCA]` → `Daksa`) nos 5 arquivos de
+  `src/content/*`.
+- `src/lib/consent.ts`: `CONSENT_STORAGE_KEY = 'daksa_consent'` já estava certo por
+  coincidência — só limpei o comentário.
 
-- `src/data/site.ts`: `name`/`legalName` = `'[MARCA]'`.
-- `public/favicon.svg`: placeholder geométrico (grafite/âmbar), **não é o logo real**.
-  Faltam: logo em SVG, favicon derivado, ícones (`public/icons/`), imagem OG padrão.
-- `src/lib/schema.ts` (`organizationSchema`): sem `logo`.
-- `wrangler.jsonc`: `name: "site-daksa"` — nome técnico do projeto no Cloudflare,
-  provavelmente muda com O1.
-- Nenhuma copy de página foi escrita ainda (Fase 2+), então `[MARCA]` não aparece em texto
-  visível além dos exemplos de conteúdo — mas toda a copy-base de `01` usa o placeholder e
-  precisa da resolução de O1 antes da Fase 2.
+**O que O1 ainda não resolve:** logo real em SVG. `public/favicon.svg` continua sendo um
+placeholder geométrico (grafite/âmbar) — falta o arquivo de verdade para favicon derivado,
+ícones (`public/icons/`) e imagem OG padrão.
 
-### O5 — Domínio, e-mail transacional, DNS/SSL
-
-- `astro.config.mjs`: `site: 'https://example.invalid'` (placeholder inválido de propósito,
-  para nunca colar em produção por engano).
-- `src/data/site.ts`: `url`, `email` = placeholders.
-- `public/robots.txt`: `Sitemap:` aponta para o domínio placeholder.
-- `src/pages/api/lead.ts`: `RESEND_API_KEY` / `LEAD_NOTIFICATION_EMAIL` não configurados —
-  endpoint roda em modo stub (loga e responde sucesso, não envia e-mail real).
-- `wrangler.jsonc`: bindings comentados, aguardando providers/domínio.
-- DNS/SSL/HSTS preload (`02 §4`) são passos manuais da Fase 5, fora do código.
-
-### O6 — CRM de destino
-
-- `src/pages/api/lead.ts`: `CRM_WEBHOOK_URL` não configurado — lead é validado, classificado
-  por tier e logado, mas **não é enviado a CRM nenhum**. O ponto de integração está marcado
-  (`TODO:O6`) com o formato de payload esperado (`08 §1.3`).
-- `wrangler.jsonc`: bindings de D1 (fallback de lead) e Queues (retry) comentados —
-  dependem de saber que CRM/infra o time vai operar (dogfooding, recomendação de `09 §3`).
-
-**Sem resolver O1/O5/O6, a Fase 2 (home real + `/diagnostico` + Worker completo) não pode
-fechar de verdade** — dá para construir a UI e a lógica, mas não testar o fluxo de lead
-ponta a ponta como o checkpoint da Fase 2 exige (`09 §1`).
+**Confirmação importante de `09 §3` (O1):** não é uma marca nova nem uma "unidade nomeada"
+— é a Daksa inteira se reposicionando. A arquitetura pública do site continua a mesma
+(escada estreita já validada); "vendas e IA com outras automações" só entra como expansão
+de conta dentro de Operação Contínua (`03 §4.6`), nunca como item de menu. Nenhuma mudança
+de arquitetura foi necessária no código por causa disso.
 
 ---
 
-## 2. Decisões não-bloqueantes ainda pendentes
+## 2. O que ainda está aberto (bloqueia menos do que antes)
 
-| #   | O que falta                                                           | Onde                                                                                                                                                                               | Bloqueia                                                                                                                                   |
-| --- | --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| O2  | Confirmação final do menu com 2 segmentos (indústrias/distribuidoras) | Já implementado assim em `src/data/nav.ts`, seguindo D8 (`00 §1`)                                                                                                                  | Nada — D8 já fecha isso; O2 parece redundante com D8. Sinalizado na Fase 0, meu entendimento é que está fechado. Avisar se não for o caso. |
-| O3  | Confirmação de não exibir preço                                       | Nenhum template criado ainda inclui preço; `serviceSchema()` já omite `price` por design (`schema.ts`)                                                                             | Idem — D7 já fecha isso                                                                                                                    |
-| O4  | Fotografia (banco vs. sessão própria vs. sem foto)                    | Ainda não relevante — páginas de segmento são Fase 3                                                                                                                               | Fase 3                                                                                                                                     |
-| O7  | Ano de fundação, marcos da história, nome/foto do fundador            | `src/data/site.ts` (`foundingYear: 2003` — placeholder do exemplo do próprio `04`, não confirmado), `src/content/timeline/fundacao.json`, `src/content/authors/exemplo-autor.json` | Fase 4                                                                                                                                     |
-| O9  | URL real do LinkedIn da empresa                                       | `src/data/site.ts` (`social.linkedin`)                                                                                                                                             | Fase 1 (cosmético, não bloqueia build)                                                                                                     |
-| O10 | Revisão jurídica de Privacidade/Termos                                | `src/content/legal/privacidade.mdx` (placeholder)                                                                                                                                  | Fase 4                                                                                                                                     |
-| O11 | Confirmar que "permitir Google-Extended" está certo                   | Já aplicado em `public/robots.txt` (`07 §2` já chamava isso de decisão fechada)                                                                                                    | Nada — avisar se quiser bloquear                                                                                                           |
+| #   | O que falta                                                                                                                    | Onde no código                                                                                                         | Bloqueia                                        |
+| --- | ------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| O5b | E-mail transacional (SPF/DKIM/DMARC, Resend ou Postmark)                                                                       | `src/pages/api/lead.ts`: `env.RESEND_API_KEY`/`env.LEAD_NOTIFICATION_EMAIL` não configurados (stub)                    | Fluxo de lead ponta a ponta de verdade (Fase 2) |
+| O6  | Nome do CRM (confirmado que já existe um em uso) e campos                                                                      | `src/pages/api/lead.ts`: `env.CRM_WEBHOOK_URL` não configurado (stub); `wrangler.jsonc`: bindings D1/Queues comentados | Idem                                            |
+| O4  | Fotografia (sessão própria vs. sem foto) — banco genérico já descartado por critério do `05 §4`                                | Páginas de segmento são Fase 3                                                                                         | Fase 3                                          |
+| O7  | Nome/foto do fundador; marcos intermediários da timeline (ano de fundação já resolvido)                                        | `src/content/timeline/fundacao.json` (só o marco de fundação existe), `src/content/authors/exemplo-autor.json`         | Fase 4                                          |
+| O10 | Revisão jurídica de Privacidade/Termos                                                                                         | `src/content/legal/privacidade.mdx` (placeholder)                                                                      | Fase 4                                          |
+| O12 | Destino do portfólio antigo (Lipid, UCBVet, Yosen, Mandubim) e páginas de Branding/Embalagens/Campanhas — **não entram no v1** | Nada a fazer agora                                                                                                     | Pós-lançamento                                  |
 
-**Nota sobre O2/O3/O11:** `00 §1` (D7, D8) já trata essas decisões como fechadas, mas
-`09 §3` as relista como abertas. Implementei seguindo D7/D8/07§2 (a leitura mais coerente
-com o resto do plano). Se isso não refletir sua intenção, me avise antes da Fase 3.
+O2, O3, O9, O11 estavam listados como "abertos" em versões anteriores do plano mas já
+tratados como fechados por D7/D8/07§2 — sem mudança de status, meu entendimento seguiu
+igual.
+
+**Novidade real: O8 (redirects 301) agora é obrigatório**, não opcional — o domínio antigo
+(daksa.com.br, WordPress/Elementor) será substituído por inteiro. `09 §1` Fase 5 já lista o
+mapa exato: 5 páginas de serviço antigas (Branding, Embalagens, Marketing Digital,
+Campanhas, Criação de Sites), portfólio (Lipid, UCBVet, Yosen, Mandubim) e institucionais
+(Quem Somos, Contato) → páginas novas equivalentes ou home. Nada a fazer nesta fase — é
+trabalho de Fase 5 — mas fica registrado aqui porque é risco P1 (R13, `09 §2`).
+
+**Sem O5b e O6, a Fase 2 (`/diagnostico` + Worker completo) não fecha de verdade** — dá
+para construir a UI e a lógica completas, mas não testar o fluxo de lead ponta a ponta
+contra o CRM real como o checkpoint da Fase 2 exige.
 
 ---
 
-## 3. Acessos e dados que só você pode fornecer (Fase 0 original, ainda pendente)
+## 3. Acessos que só você pode fornecer (ainda pendentes)
 
-Da lista de `09 §1` Fase 0, não fornecida ainda:
-
-- Acesso a GitHub (para eu abrir PRs de verdade em vez de só commitar localmente — a esta
-  altura o repositório existe só localmente, `git init` feito, nenhum commit ainda).
+- Acesso a GitHub — **resolvido**: repositório em https://github.com/casteleti/daksa-2026,
+  commit inicial da Fase 1 já enviado.
 - Acesso à conta Cloudflare (Pages/Workers, DNS, D1, Queues, Turnstile) — necessário para
   `CLOUDFLARE_API_TOKEN`/`CLOUDFLARE_ACCOUNT_ID` no CI (`.github/workflows/ci.yml`, job
-  `deploy`, hoje desligado via `vars.CLOUDFLARE_DEPLOY_ENABLED`).
-- Acesso à propriedade GA4 (Fase 2).
-- Acesso/decisão do CRM (O6, acima).
-- Textos legais base e endereço/CNPJ, se for exibir (O5/O10).
+  `deploy`, hoje desligado via `vars.CLOUDFLARE_DEPLOY_ENABLED`). Ainda não fornecido.
+- Acesso à propriedade GA4 (Fase 2). Ainda não fornecido.
+- Nome do CRM e acesso a ele (O6, acima). Ainda não fornecido.
+- Provedor de e-mail transacional (O5b, acima). Ainda não fornecido.
+- Textos legais base para Privacidade/Termos (O10). Ainda não fornecido.
+- Logo em SVG (O1 — falta só isso da marca). Ainda não fornecido.
+- Nome/foto do fundador (O7). Ainda não fornecido.
 - Conversas de validação com 2–3 contatos do ICP (reação ao H1, ao "Diagnóstico", ao
-  formulário de 2 etapas) — ainda não feitas; H1 alternativos continuam em `01 §5.2`
-  aguardando essa validação antes de eu fixar a copy da home na Fase 2.
+  formulário de 2 etapas) — ainda não feitas. Relevante agora: `01 §5.2` já lista um H1
+  alternativo D vindo da camada conceitual de Estanqueidade ("Sua operação comercial vaza.
+  A gente testa, encontra e veda.") como candidato forte, mas pendente dessa validação
+  antes de eu fixar como H1 principal na Fase 2.
+
+---
+
+## 3b. Correção de contradição entre docs (resolvida nesta sessão)
+
+`01 §6` (camada conceitual de Estanqueidade) introduziu o componente `PipeTag` como o
+tratamento correto para qualquer badge de prazo/duração, mas `04 §4` (Escada) e `05 §2.2`
+ainda diziam "prazo em mono" / listavam "prazos numéricos" no escopo do IBM Plex Mono —
+uma contradição real entre os dois arquivos. Você resolveu: **`PipeTag` vence para
+qualquer badge de prazo/duração**; mono fica só para dado numérico com valor real
+(métricas, indicadores, `CodeLog`). Já corrigido nos dois arquivos de planejamento:
+
+- `05-DESIGN-SYSTEM.md` §1 (regra 1) e §2.2 (linha da família Mono): removida a menção a
+  "prazos"/"prazos numéricos".
+- `04-HOME-DETALHADA.md` §4 (Escada): as duas menções a "prazo em mono" (Visual e Mobile)
+  trocadas por `PipeTag`.
+
+Busquei em todos os 10 arquivos por `prazo em mono` e `prazos numéricos` — nenhuma outra
+ocorrência sobrou. Nenhuma menção de prazo em páginas de serviço (`03 §4.3–4.6`, ex.: "Os 5
+dias", "semana a semana", "60 dias") especifica tratamento tipográfico explícito, então não
+há mais nenhuma contradição a resolver antes da Fase 2 — quando esses steppers forem
+construídos, `PipeTag` é a resposta por padrão.
 
 ---
 
@@ -188,8 +215,8 @@ reporta isso como **FAIL** no CI hoje. Três caminhos, sua escolha:
 
 ## 7. Checklist do checkpoint da Fase 1 (`09 §1`)
 
-- [x] Repositório com a estrutura de `02 §8` (`git init` feito; **nenhum commit ainda** —
-      não commitei nada, à espera da sua confirmação, conforme instruído)
+- [x] Repositório com a estrutura de `02 §8`, commitado e enviado a
+      https://github.com/casteleti/daksa-2026 (branch `main`)
 - [x] `tokens.css`, `layers.css`, fontes subset self-hosted (reais, geradas, ver §6 acima
       para o único ponto em aberto)
 - [x] `Base.astro`, `Header`, `Footer`, `MobileNav`, `Breadcrumb`, `Button`, `Link`,
@@ -209,7 +236,7 @@ reporta isso como **FAIL** no CI hoje. Três caminhos, sua escolha:
 - [ ] **Preview publicado no Cloudflare Pages** — não fiz porque não tenho acesso à conta
       Cloudflare (§3 acima). O build local passa em todos os gates; falta só o deploy.
 
-### Resultado dos gates (rodados nesta sessão)
+### Resultado dos gates (re-rodados após atualizar os dados reais da Daksa)
 
 | Gate                                      | Resultado                                                                                                       |
 | ----------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
@@ -217,10 +244,10 @@ reporta isso como **FAIL** no CI hoje. Três caminhos, sua escolha:
 | ESLint                                    | 0 erros, 0 warnings                                                                                             |
 | Prettier                                  | 100% formatado                                                                                                  |
 | Vitest                                    | 20/20 testes passando                                                                                           |
-| `astro build`                             | build limpo, modo `static` com 2 rotas SSR (`/api/healthz`, `/api/lead`)                                        |
-| `check-budgets.mjs`                       | JS/CSS/total: ok em todas as rotas · **fontes: FAIL (145 KB / 140 KB — ver §6)**                                |
+| `astro build`                             | build limpo, modo `static` com 2 rotas SSR (`/api/healthz`, `/api/lead`); canonical/sitemap já em daksa.com.br  |
+| `check-budgets.mjs`                       | JS/CSS/total: ok em todas as rotas · **fontes: FAIL (141,7 KB / 140 KB — ver §6, ainda não resolvido)**         |
 | Playwright (Chromium)                     | 17/17 — E2E, axe (0 violações critical/serious), 8 viewports sem overflow horizontal                            |
-| Lighthouse CI (mobile simulado, 3 runs)   | Performance 90–99 (mediana ≥ 95, gate passa) · Acessibilidade 100 · SEO 100 · Best practices 100                |
+| Lighthouse CI (mobile simulado, 3 runs)   | Performance 99/99/99 · Acessibilidade 100 · SEO 100 · Best practices 100 (3/3 runs, sem variância desta vez)    |
 | `npm audit --audit-level=high --omit=dev` | 0 vulnerabilidades (dependências de produção) — ver §5 item 5 sobre as 7 high em devDependencies do `@lhci/cli` |
 
 ---

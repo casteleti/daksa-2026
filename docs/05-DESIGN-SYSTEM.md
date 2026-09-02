@@ -8,7 +8,7 @@ Conceito: **"sala de controle industrial + inteligência + precisão"**. Sóbrio
 
 A direção fixada pelo brief (fundo quase-preto, serifada de display, acento terroso, mono para dados) coincide com padrões que hoje sinalizam página gerada por IA. O brief vence, mas as seguintes regras impedem que a execução caia no template:
 
-1. **Mono só em dados reais** (logs, indicadores, prazos). Nunca em labels, eyebrows, navegação ou botões.
+1. **Mono só em dados reais** (logs, indicadores). Nunca em labels, eyebrows, navegação ou botões, nem em prazo/duração — prazo é rótulo, não dado, e usa `PipeTag` (`§2.2`, `§3`).
 2. **Sem eyebrow em caixa alta** acima de títulos. Contexto vem no próprio H2 ou em uma linha em sentence case.
 3. **Sem seta (→) em links e botões.** O verbo já diz o que acontece.
 4. **Sem grid de cards idênticos.** Cada seção tem a forma do seu conteúdo: escada, tabela, lista editorial, blocos assimétricos.
@@ -71,19 +71,26 @@ Regras: âmbar ≤ 10% da área visível; nunca como fundo de seção; só CTA p
 
 ### 2.2 Tipografia
 
+Quatro famílias, cada uma com um papel exclusivo e não intercambiável — duas famílias soavam simplistas para a variedade de vozes que o site precisa (editorial, técnica, de dado, e agora industrial/instrumentação, reforçada pelo conceito de Estanqueidade em `01 §6`).
+
 | Papel | Família | Pesos | Uso |
 |---|---|---|---|
-| Display | **Fraunces** (variable, opsz) | 500–700 | H1, H2, títulos de seção, citações |
+| Display | **Fraunces** (variable, opsz) | 500–700, **itálico 500** | H1, H2, títulos de seção |
+| Display editorial | **Fraunces itálico** | 500 | Uso estrito: citações reais (`<blockquote>`), a linha de abertura de "Como pensamos" (`01 §5.9`), e **no máximo uma palavra** de ênfase dentro de um título — nunca a frase inteira, nunca em CTA ou botão. Não é decoração; marca uma mudança de registro (de afirmação para reflexão) |
 | Texto | **Inter** (variable) | 400, 500, 600 | corpo, H3–H6, nav, botões, formulários |
-| Dados | **IBM Plex Mono** | 400, 500 | valores, logs, prazos, indicadores — nunca labels |
+| Dados | **IBM Plex Mono** | 400, 500 | valores, logs, indicadores — nunca labels |
+| Rótulo técnico/instrumentação | **Oswald** (condensed) | 500, 600 | Uso estrito e isolado: `PipeTag`/badges de prazo ("5 dias", "60 dias"), numerais de manômetro/indicador visual, tags de estado ("exemplo ilustrativo"). **Única família com permissão de caixa alta no site** — replica a estética de placa estampada de válvula/tanque industrial (`01 §6`). Nunca em corpo de texto, títulos, nav ou botões |
 
-Fallback stacks: `Fraunces, "Iowan Old Style", Georgia, serif` · `Inter, "Segoe UI", Roboto, system-ui, sans-serif` · `"IBM Plex Mono", "SF Mono", Menlo, monospace`. `size-adjust` nos fallbacks para reduzir CLS.
+Fallback stacks: `Fraunces, "Iowan Old Style", Georgia, serif` · `Inter, "Segoe UI", Roboto, system-ui, sans-serif` · `"IBM Plex Mono", "SF Mono", Menlo, monospace` · `Oswald, "Arial Narrow", sans-serif`. `size-adjust` nos fallbacks para reduzir CLS.
+
+**Regra de disciplina:** a quarta família (Oswald) só existe dentro do componente `PipeTag`/`Gauge` (ver `§3`). Se aparecer em qualquer outro lugar do site, é erro de implementação, não variação de estilo.
 
 ```css
 :root {
   --font-display: Fraunces, "Iowan Old Style", Georgia, serif;
   --font-text:    Inter, "Segoe UI", Roboto, system-ui, sans-serif;
   --font-mono:    "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  --font-label:   Oswald, "Arial Narrow", sans-serif; /* só em PipeTag/Gauge — 05 §2.2 */
 
   --fs-100: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);  /* 13–14 legendas */
   --fs-200: clamp(0.9375rem, 0.9rem + 0.2vw, 1rem);        /* 15–16 meta */
@@ -147,7 +154,7 @@ Uso: cards/inputs `--r-1`; imagens `--r-1`; badges `--r-pill`; blocos de seção
 ### 2.5 Ícones e glifos
 
 - Estilo: monolineares, 1,5 px, cantos levemente arredondados, 24 px base, cor `currentColor`.
-- Fonte: conjunto próprio (SVG inline, sprite) de ~20 glifos: relógio, fio cortado, funis, carteira, gráfico, seta-fluxo, nó, supervisão (olho + check), cadeado, integração (dois blocos ligados), documento, chat, telefone, e-mail, LinkedIn, menu, fechar, expandir, externo, check, alerta.
+- Fonte: conjunto próprio (SVG inline, sprite) de ~24 glifos: relógio, fio cortado, funis, carteira, gráfico, seta-fluxo, nó, supervisão (olho + check), cadeado, integração (dois blocos ligados), documento, chat, telefone, e-mail, LinkedIn, menu, fechar, expandir, externo, check, alerta, **válvula, manômetro, gota (vazamento), junta/tubo**. Os quatro últimos entram por conta da camada conceitual de Estanqueidade (`01 §6`) — mesmo estilo monolinear, nunca ilustrativos.
 - Proibido: ícones de robô, cérebro, chip, raio "mágico", estrelas de IA.
 
 ### 2.6 Motion tokens
@@ -202,6 +209,8 @@ Cada componente: variantes · estados (default, hover, focus, active, disabled, 
 | **Footer** | 4 col → 2 col → 1 col por container | — | grupos em `<details>` opcional | `<footer>`, `<nav aria-label="Rodapé">` |
 | **Skip link** | — | visível em foco | — | primeiro elemento focável |
 | **CodeLog (log ilustrativo)** | 3 linhas mono | "digita" em CSS; rótulo | — | `aria-hidden` no efeito; texto real acessível |
+| **PipeTag** | badge de prazo ("5 dias", "60 dias", "mensal") | `font-family: var(--font-label)`, caixa alta, peso 600, fundo transparente, borda 1px, `letter-spacing: 0.04em` — única exceção de caixa alta do site (`05 §2.2`) | mesmo tamanho, não encolhe abaixo de 11px | texto real, não decorativo |
+| **Gauge (manômetro)** | indicador circular com ponteiro, usado como alternativa ao `Stat` inline quando o dado é único e central (ex.: hero, `04 §1`) | numeral central em `var(--font-label)`; rótulo abaixo em Inter sentence case; ponteiro em âmbar; sempre rotulado "exemplo ilustrativo" quando sintético (`00` guardrail) | vira `Stat` simples (sem SVG de mostrador) em telas < 22rem para evitar detalhe ilegível | `role="img"` com `aria-label` descrevendo o valor por extenso |
 
 ---
 

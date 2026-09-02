@@ -27,7 +27,7 @@ Cada seção abaixo segue os 14 atributos do brief: objetivo · persona · mensa
 - **Persona:** dono / diretor comercial.
 - **Mensagem:** você já gera oportunidade; o problema é o que acontece depois; nós resolvemos e ficamos operando.
 - **Headline (H1):** *Sua empresa já gera as oportunidades. Nós fazemos com que elas não morram no caminho.*
-- **Conteúdo:** supporting (01 §5.2) · CTA primário · CTA secundário · microprova em uma linha: "Diagnóstico em 5 dias · Número antes do investimento · 23 anos com empresas B2B".
+- **Conteúdo:** supporting (01 §5.2) · CTA primário · CTA secundário · microprova em uma linha: "Diagnóstico em 5 dias · Número antes do investimento · 22 anos com empresas B2B".
 - **Visual:** à direita (desktop) / abaixo (mobile), o **SystemDiagram em estado "vivo"**: diagrama SVG do fluxo comercial (Entrada → Qualificação → CRM → Follow-up → Vendedor → Pedido) com nós, conexões e pequenos "eventos" passando pelo fluxo (pontos âmbar que percorrem as conexões), um painel lateral com 3 indicadores em mono ("Tempo de 1ª resposta 4 min" · "Follow-ups no prazo 96%" · "Pipeline parado 0 há +14 dias") **rotulados como "exemplo ilustrativo"** em texto pequeno visível. Não é dashboard fake de cliente; é o sistema em funcionamento com dados sintéticos declarados.
 - **Interação:** hover/tap em um nó exibe tooltip de 1 linha (o que acontece ali). Nada essencial no tooltip.
 - **CTA:** primário "Solicitar diagnóstico de receita" (âmbar, sólido) · secundário "Ver como funciona" (texto com sublinhado).
@@ -83,11 +83,11 @@ Cada seção abaixo segue os 14 atributos do brief: objetivo · persona · mensa
 - **Mensagem:** quatro etapas, começa pequeno, termina operando.
 - **Headline (H2):** *Do diagnóstico à operação, em quatro etapas.*
 - **Conteúdo:** 01 §5.5; cada etapa com nome, prazo, 2 frases, link "Saiba mais".
-- **Visual:** **linha de escada**: 4 estações conectadas por uma linha fina; a primeira estação (Diagnóstico) destacada com borda âmbar; abaixo de cada estação, prazo em mono ("5 dias" · "2–3 semanas" · "60 dias" · "mensal"). É uma sequência real, então numeração 1–4 é legítima.
+- **Visual:** **linha de escada**: 4 estações conectadas por uma linha fina; a primeira estação (Diagnóstico) destacada com borda âmbar; abaixo de cada estação, prazo em **`PipeTag`** ("5 dias" · "2–3 semanas" · "60 dias" · "mensal") — não mono: prazo é rótulo, não dado (`05 §2.2`). É uma sequência real, então numeração 1–4 é legítima.
 - **Interação:** clique leva à página do serviço. Hover: estação eleva 1 px e linha até ela fica âmbar.
 - **CTA:** ao fim, link "Ver como funciona" (secundário).
 - **Desktop:** horizontal, 4 colunas iguais, linha conectora por `::before` no container.
-- **Mobile:** vertical, linha à esquerda, estações como itens com prazo em mono à esquerda e texto à direita.
+- **Mobile:** vertical, linha à esquerda, estações como itens com `PipeTag` de prazo à esquerda e texto à direita.
 - **Motion:** linha conectora desenha-se no reveal (400 ms) uma vez. Reduced motion: estática.
 - **SEO:** H2 + H3 por etapa; termos "diagnóstico de receita", "implantação", "operação contínua".
 - **GEO:** lista ordenada semântica (`<ol>`); cada etapa é uma definição autocontida.

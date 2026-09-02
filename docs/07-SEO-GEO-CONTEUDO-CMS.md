@@ -41,7 +41,7 @@ Conclusão: GEO = SEO técnico sólido + conteúdo claro, autocontido, com entid
 
 | Entidade | Página canônica | Schema |
 |---|---|---|
-| [MARCA] (organização) | `/sobre/nossa-historia/` (about) + site-wide | `Organization` (`ProfessionalService`), `foundingDate`, `areaServed: BR`, `knowsAbout`, `sameAs` (LinkedIn) |
+| Daksa (organização) | `/sobre/nossa-historia/` (about) + site-wide | `Organization` (`ProfessionalService`), `foundingDate`, `areaServed: BR`, `knowsAbout`, `sameAs` (LinkedIn) |
 | Consultoria de operação comercial (serviço-guarda-chuva) | `/o-que-fazemos/` | `Service` + `OfferCatalog` |
 | Diagnóstico de receita | `/o-que-fazemos/diagnostico-de-receita/` | `Service` |
 | Implantação / Estabilização / Operação contínua | respectivas | `Service` |

@@ -7,9 +7,10 @@ import { diagnosticLeadSchema, classifyLeadTier, isFreeEmailDomain } from '../..
  *
  * STUB DA FASE 1 (docs/inputs.md): valida de verdade (Zod, honeypot, Turnstile quando
  * configurado) e classifica o tier, mas NÃO integra com CRM real (O6) nem envia e-mail
- * transacional real (O5) — loga estruturado e responde sucesso mockado. Os dois pontos de
- * integração futura estão marcados abaixo com TODO:O5/TODO:O6. Fila/D1 de fallback (Cloudflare
- * Queues + D1, 02 §4) também entram só quando os bindings existirem — Fase 2 (09 §1).
+ * transacional real (O5b) — loga estruturado e responde sucesso mockado. Os dois pontos de
+ * integração futura estão marcados abaixo com TODO:O5b/TODO:O6. Fila/D1 de fallback
+ * (Cloudflare Queues + D1, 02 §4) também entram só quando os bindings existirem — Fase 2
+ * (09 §1). Domínio (O5) e marca (O1) já resolvidos, ver docs/inputs.md.
  */
 export const prerender = false;
 
@@ -17,8 +18,9 @@ const MAX_BODY_BYTES = 8192; // 02 §5
 
 async function verifyTurnstile(token: string, secretKey: string | undefined, ip: string) {
   if (!secretKey) {
-    // Dev/stub: sem secret configurado ainda (depende do domínio real, O5). Não bloqueia
-    // localmente, mas nunca aceitar isto em produção — ver checklist de release (08 §5).
+    // Dev/stub: sem secret configurado ainda (depende de acesso à conta Cloudflare para
+    // registrar o site em Turnstile). Não bloqueia localmente, mas nunca aceitar isto em
+    // produção — ver checklist de release (08 §5).
     console.warn('[lead] TURNSTILE_SECRET_KEY ausente — verificação pulada (modo stub).');
     return { success: true, stub: true };
   }
@@ -85,7 +87,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   // timestamp; criar negócio no estágio "Diagnóstico solicitado" (08 §1.3).
   const crmResult = { ok: true, stub: true as const };
 
-  // TODO:O5 — e-mail transacional (Resend/Postmark) com o texto de sucesso de 01 §5.11 +
+  // TODO:O5b — e-mail transacional (Resend/Postmark) com o texto de sucesso de 01 §5.11 +
   // notificação interna. env.RESEND_API_KEY / env.LEAD_NOTIFICATION_EMAIL.
   const emailResult = { ok: true, stub: true as const };
 

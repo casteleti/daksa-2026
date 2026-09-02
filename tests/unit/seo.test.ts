@@ -11,7 +11,7 @@ describe('canonicalUrl', () => {
 describe('validateSeo', () => {
   it('aceita title/description dentro dos limites', () => {
     const problems = validateSeo({
-      title: 'Diagnóstico de receita em 5 dias | [MARCA]',
+      title: 'Diagnóstico de receita em 5 dias | Daksa',
       description:
         'Em 5 dias medimos quanto sua empresa perde entre o primeiro contato e o pedido, e entregamos as três correções prioritárias da sua operação comercial hoje.',
     });

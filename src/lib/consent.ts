@@ -13,7 +13,7 @@ export interface ConsentSettings {
   ad_personalization: ConsentState;
 }
 
-export const CONSENT_STORAGE_KEY = 'daksa_consent'; // TODO:O1 renomear com o nome final da marca
+export const CONSENT_STORAGE_KEY = 'daksa_consent'; // O1 resolvido (01 §8) — já é o nome certo
 export const CONSENT_COOKIE_MAX_AGE_DAYS = 90; // 08 §1.3: cookie de 1ª parte, 90 dias
 
 export const DEFAULT_CONSENT: ConsentSettings = {

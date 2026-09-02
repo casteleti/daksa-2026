@@ -6,7 +6,7 @@ Este arquivo é a fonte de verdade para toda a comunicação do site. Copy de qu
 
 ## 1. O negócio (input consolidado do planejamento estratégico)
 
-**Empresa:** [MARCA], 23 anos de história em marketing digital com apoio a vendas B2B. Reposiciona-se como **Consultoria de Operação Comercial que implementa e opera**.
+**Empresa:** Daksa, 22 anos de história em marketing digital com apoio a vendas B2B. Reposiciona-se como **Consultoria de Operação Comercial que implementa e opera**.
 
 **O que vende:** um sistema comercial que para de perder receita entre o primeiro contato e a renovação do cliente. Processo + CRM + dados + integrações + automação + agentes de IA + operação contínua.
 
@@ -51,7 +51,7 @@ Preços não são exibidos (D7). O site comunica: Diagnóstico é pago e credita
 
 ## 2. Declaração de posicionamento (do Prompt 2, validada)
 
-> Para indústrias e distribuidoras B2B com times comerciais estruturados que perdem oportunidades entre o primeiro contato, o follow-up e a renovação, a [MARCA] é uma consultoria de operação comercial que estrutura, implementa e opera esse fluxo de ponta a ponta para aumentar controle, velocidade e aproveitamento do pipeline. Diferente de contratar mais vendedores, trocar de CRM ou contratar automações isoladas, trabalhamos sobre o sistema comercial inteiro e permanecemos responsáveis por fazê-lo funcionar na operação real.
+> Para indústrias e distribuidoras B2B com times comerciais estruturados que perdem oportunidades entre o primeiro contato, o follow-up e a renovação, a Daksa é uma consultoria de operação comercial que estrutura, implementa e opera esse fluxo de ponta a ponta para aumentar controle, velocidade e aproveitamento do pipeline. Diferente de contratar mais vendedores, trocar de CRM ou contratar automações isoladas, trabalhamos sobre o sistema comercial inteiro e permanecemos responsáveis por fazê-lo funcionar na operação real.
 
 ---
 
@@ -108,16 +108,17 @@ Alternativas para teste A/B em fase 2: *Sistema comercial que não deixa oportun
 
 **CTA primário:** Solicitar diagnóstico de receita
 **CTA secundário:** Ver como funciona
-**Microprova (abaixo dos CTAs):** Diagnóstico em 5 dias. Número na mesa antes de qualquer investimento. 23 anos ao lado de empresas B2B.
+**Microprova (abaixo dos CTAs):** Diagnóstico em 5 dias. Número na mesa antes de qualquer investimento. 22 anos ao lado de empresas B2B.
 
 Alternativas de H1 para validação com ICP (fase 1, conversas reais):
 - A. *Pare de perder venda por lentidão, follow-up esquecido e CRM abandonado.*
 - B. *Quanto do seu pipeline está parado agora? Nós colocamos número nisso em 5 dias.*
 - C. *Venda mais com o time comercial que você já tem.*
+- D. *Sua operação comercial vaza. A gente testa, encontra e veda.* — variante da camada conceitual de Estanqueidade (`01 §6`); único KV já produzido e aprovado visualmente. Forte candidata a H1 principal se a validação com ICP confirmar que "vaza"/"veda" soa preciso e não informal demais para o comitê de compra (`00` D9, `03 §4.20`)
 
 ### 5.3 Pitch curto (Sobre, meta descriptions, LinkedIn)
 
-> A [MARCA] é uma consultoria de operação comercial para indústrias e distribuidoras B2B. Diagnosticamos onde a receita vaza entre marketing, CRM e vendas, implantamos o sistema que corrige — processo, dados, automação e agentes de IA — e operamos esse sistema mês a mês. Há 23 anos ajudamos empresas B2B a vender mais.
+> A Daksa é uma consultoria de operação comercial para indústrias e distribuidoras B2B. Diagnosticamos onde a receita vaza entre marketing, CRM e vendas, implantamos o sistema que corrige — processo, dados, automação e agentes de IA — e operamos esse sistema mês a mês. Há 22 anos ajudamos empresas B2B a vender mais.
 
 ### 5.4 O problema (seção "Problema", home)
 
@@ -214,10 +215,49 @@ Copy: Muitos clientes, muitos SKUs, vendedor de carteira, pedido que deveria ser
 
 ---
 
-## 6. Regras de copy para o Claude Code
+## 6. Camada conceitual — Estanqueidade
+
+Adotada como lente interpretativa que **reforça** o posicionamento já validado ("vazamento de receita"), não o substitui. Estanqueidade é o termo técnico de engenharia para "a propriedade de um sistema não vazar" — vocabulário real de indústria e distribuição, não metáfora emprestada de outra categoria.
+
+**Regra de uso:** só entra onde esclarece algo que já vendemos. Nunca vira produto novo, nunca abre escopo (diferente do risco identificado na avaliação da "Cartografia do Próximo"). Usar com moderação — 1 a 2 aparições por página no máximo, nunca a ponto de a palavra "estanqueidade" repetir a cada parágrafo.
+
+**Glossário de tradução (uso interno de copy, não é jargão a explicar ao leitor):**
+
+| Termo técnico | Onde aparece no site |
+|---|---|
+| Vazamento | Já é a linguagem-base (`§1`) — mantém-se como termo principal |
+| Válvula | Metáfora para o ponto de escalada humana nos agentes (`03 §4.7`) — "aqui existe uma válvula: o agente para e o humano decide" |
+| Vazão / pressão | Pipeline em movimento vs. volume de leads entrando — "pressão sem vazão é orçamento de marketing parado" |
+| Calibração | O que acontece na Estabilização (`03 §4.5`) |
+| Manutenção preventiva | Reformulação de apoio para Operação Contínua (`03 §4.6`) — nunca substitui o nome do serviço |
+| Teste de estanqueidade | Reformulação técnica do que o Diagnóstico faz (`03 §4.3`) — usar como explicação complementar, não como nome do produto |
+| Junta / vedação | Pontos de integração entre CRM, WhatsApp e dados — onde informação normalmente vaza |
+| Manômetro | Referência visual para indicadores (SLA, % follow-up) — mostrador circular com ponteiro em vez de ícone abstrato |
+
+**Headline validada (KV gerado):** *"Sua operação comercial vaza. A gente testa, encontra e veda."* — candidata forte para H1 alternativo em `04 §1` (ver atualização).
+
+**O que NÃO adotar deste conceito:** nome de produto ("Estanqueidade™"), jargão explicado ao leitor, ou qualquer expansão de escopo para "engenharia de processos" genérica. Continua sendo vocabulário de apoio dentro do sistema já definido — indústria e distribuição, vazamento de receita, ciclo comercial.
+
+## 7. Regras de copy para o Claude Code
 
 1. Nunca gerar copy nova para seções principais — usar os blocos deste arquivo.
 2. Para microcopy não coberta (tooltips, labels, estados), seguir tom de voz da seção 4.
 3. Toda página tem: H1 único derivado deste arquivo, meta title ≤ 60 caracteres, meta description 140–155 caracteres, ambas em sentence case, sem exclamação.
 4. Não inventar depoimentos, logos, números de clientes, certificações ou prêmios.
-5. Placeholders permitidos: `[MARCA]`, `[email]`, `[telefone]`, `[endereço]`, `[nome do fundador]`, `[foto]`. Devem ser resolvidos antes do deploy (checklist em 09).
+5. Placeholders ainda pendentes: `[nome do fundador]`, `[foto]`. Devem ser resolvidos antes do deploy (checklist em 09).
+
+## 8. Dados reais da empresa (resolvidos)
+
+| Campo | Valor |
+|---|---|
+| Nome | Daksa |
+| Fundação | 2004 (22 anos completos em 2026) |
+| Endereço | R. Floriano Peixoto, 20, Centro, Jaboticabal – SP, CEP 14870-370 |
+| E-mail | atendimento@daksa.com.br |
+| Telefone | (16) 99740-0144 |
+| LinkedIn | https://br.linkedin.com/company/daksa---marketing-e-tecnologia |
+| Domínio | daksa.com.br (substituição integral do site atual; DNS sob controle da própria Daksa) |
+| Pivô de negócio | A Daksa descontinua branding, design de embalagens, marketing digital genérico e campanhas publicitárias como oferta pública. Passa a ser 100% consultoria de operação comercial B2B com IA. Site atual (WordPress/Elementor) é substituído por inteiro |
+| Portfólio/cases antigos (Lipid, UCBVet, Yosen, Mandubim) | Não entram no v1. Revisitar após o lançamento — provavelmente exigem reformulação (não são prova de operação comercial B2B), não republicação direta |
+
+Instagram e Facebook existem mas não entram no rodapé do novo site (`00` decisão: só LinkedIn em v1, O9).

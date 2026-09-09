@@ -26,7 +26,7 @@
     "gen-tokens-doc": "node scripts/generate-tokens-doc.mjs"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^14.2.6",
+    "@astrojs/cloudflare": "^14.3.0",
     "@astrojs/mdx": "^8.0.0",
     "@astrojs/preact": "^6.0.5",
     "@astrojs/sitemap": "^3.7.4",
